@@ -8,7 +8,7 @@ type APIDescription struct {
 	RequestFormat string `json:"requestFormat"`
 }
 
-type AuthResponse struct {
+type LoginResponse struct {
 	Did          string `json:"did"`
 	IsPortalPort bool   `json:"is_portal_port"`
 	Sid          string `json:"sid"`

@@ -1,6 +1,10 @@
 package api
 
 import "C"
+import (
+	"net/http"
+	"net/url"
+)
 
 type client struct {
 	Account   string
@@ -10,8 +14,9 @@ type client struct {
 }
 
 type Client interface {
-	Login() (*ResponseWrapper[*AuthResponse], error)
+	Login() (*ResponseWrapper[*LoginResponse], error)
 	GetInfo() (*ResponseWrapper[*Info], error)
+	NewRequest(queryTransformer func(query url.Values)) (*http.Request, error)
 }
 
 func NewClient(baseURL, user, password string) (Client, error) {
