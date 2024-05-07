@@ -2,3 +2,4 @@
 .envrc
 build/
 tmp/
+.DS_Store
