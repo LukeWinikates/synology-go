@@ -18,5 +18,6 @@ func (c *client) GetInfo() (*ResponseWrapper[*Info], error) {
 	if err != nil {
 		return nil, err
 	}
+	defer resp.Body.Close()
 	return ParseResponse[*Info](resp.Body)
 }

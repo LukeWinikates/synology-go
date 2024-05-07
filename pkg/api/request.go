@@ -8,8 +8,7 @@ import (
 	"net/url"
 )
 
-func ParseResponse[T any](responseBody io.ReadCloser) (*ResponseWrapper[T], error) {
-	defer responseBody.Close()
+func ParseResponse[T any](responseBody io.Reader) (*ResponseWrapper[T], error) {
 	var jsonResponse *ResponseWrapper[T]
 	err := json.NewDecoder(responseBody).Decode(&jsonResponse)
 	if err != nil {

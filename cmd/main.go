@@ -2,10 +2,11 @@ package main
 
 import (
 	"fmt"
+	"os"
+
 	"github.com/LukeWinikates/synology-go/cmd/docker"
 	"github.com/LukeWinikates/synology-go/pkg/api"
 	"github.com/spf13/cobra"
-	"os"
 )
 
 func init() {
@@ -27,6 +28,10 @@ func init() {
 
 var rootCmd = &cobra.Command{
 	Use: "dsmctl",
+	Long: `
+dsmctl is a utility for interacting with your Synology NAS from a remote terminal
+
+`,
 }
 
 func main() {

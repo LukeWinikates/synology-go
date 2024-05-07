@@ -22,6 +22,7 @@ func (c *client) Login() (*ResponseWrapper[*LoginResponse], error) {
 	if err != nil {
 		return nil, err
 	}
+	defer resp.Body.Close()
 	authResponse, err := ParseResponse[*LoginResponse](resp.Body)
 	if err != nil {
 		return nil, err

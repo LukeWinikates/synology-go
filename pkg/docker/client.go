@@ -4,12 +4,15 @@ import (
 	"github.com/LukeWinikates/synology-go/pkg/api"
 )
 
+// Client calls DSM APIs such as "SYNO.Docker.Log" and "SYNO.Docker.Container" to query or modify Container Manager containers
 type Client interface {
 	ListContainers() (*api.ResponseWrapper[*ContainerList], error)
 	RestartContainer(name string) (*api.ResponseWrapper[*ContainerRestart], error)
 	StopContainer(name string) (string, error)
 	StartContainer(name string) (string, error)
 	GetContainer(name string) (string, error)
+	GetContainerLogs(name string) (*api.ResponseWrapper[*ContainerLogsResponse], error)
+	GetContainerManagerLogs() (*api.ResponseWrapper[*ContainerManagerLogs], error)
 }
 
 type client struct {
