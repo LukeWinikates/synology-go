@@ -88,7 +88,6 @@ func containerLogsCmd(newClient func() api.Client) *cobra.Command {
 	return cmd
 }
 func logsCmd(newClient func() api.Client) *cobra.Command {
-	var name string
 	cmd := &cobra.Command{
 		Use: "logs",
 		Long: `
@@ -109,8 +108,6 @@ If you are looking for container logs, see: dsmctl docker container logs --name 
 			return nil
 		},
 	}
-	cmd.Flags().StringVarP(&name, "name", "n", "", "container name")
-	must(cmd.MarkFlagRequired("name"))
 
 	return cmd
 }
