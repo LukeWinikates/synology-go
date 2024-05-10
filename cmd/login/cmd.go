@@ -56,7 +56,7 @@ func Cmd(sp *SessionProvider) *cobra.Command {
 				return err
 			}
 			fmt.Println("password:")
-			pwdBytes, err := term.ReadPassword(syscall.Stdin)
+			pwdBytes, err := term.ReadPassword(int(syscall.Stdin))
 			if err != nil {
 				return fmt.Errorf("no password entered")
 			}
