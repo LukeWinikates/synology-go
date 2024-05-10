@@ -1,4 +1,4 @@
-build/dsmctl: build/ $(shell find . -iname "*.go")
+build/synoctl: build/ $(shell find . -iname "*.go")
 	go build -o $@ cmd/main.go
 
 build/:
