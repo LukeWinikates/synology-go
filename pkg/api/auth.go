@@ -5,13 +5,13 @@ import (
 	"net/url"
 )
 
-func (c *client) Login() (*ResponseWrapper[*LoginResponse], error) {
+func (c *client) Login(account, password string) (*ResponseWrapper[*LoginResponse], error) {
 	req, err := c.NewRequestWithoutAuth(func(query url.Values) {
 		query.Add("api", "SYNO.API.Auth")
 		query.Add("version", "6")
 		query.Add("method", "login")
-		query.Add("account", c.Account)
-		query.Add("passwd", c.Password)
+		query.Add("account", account)
+		query.Add("passwd", password)
 		query.Add("session", "FileStation")
 		query.Add("format", "sid")
 	})
