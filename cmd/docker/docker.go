@@ -66,6 +66,7 @@ func must(err error) {
 }
 func containerLogsCmd(newClient func() api.Client) *cobra.Command {
 	var name string
+	var simple bool
 	cmd := &cobra.Command{
 		Use:  "logs",
 		Long: "",
@@ -77,13 +78,18 @@ func containerLogsCmd(newClient func() api.Client) *cobra.Command {
 			}
 
 			for _, log := range response.Data.Logs {
-				fmt.Printf("[%s] %s: %s", log.Stream, log.Created, log.Text)
+				if simple {
+					fmt.Printf("%s", log.Text)
+				} else {
+					fmt.Printf("[%s] %s: %s", log.Stream, log.Created, log.Text)
+				}
 			}
 			return nil
 		},
 	}
-	cmd.Flags().StringVar(&name, "name", "", "container name")
+	cmd.Flags().StringVarP(&name, "name", "n", "", "container name")
 	must(cmd.MarkFlagRequired("name"))
+	cmd.Flags().BoolVarP(&simple, "simple", "s", false, "only print log content")
 
 	return cmd
 }
