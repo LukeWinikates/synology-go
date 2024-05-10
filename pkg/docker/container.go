@@ -83,7 +83,6 @@ func (c *client) GetContainerLogs(name string) (*api.ResponseWrapper[*ContainerL
 	return api.ParseResponse[*ContainerLogsResponse](resp.Body)
 }
 func (c *client) ListContainers() (*api.ResponseWrapper[*ContainerList], error) {
-	// special thanks to: https://github.com/Xboarder56/SynoDockerContainerUpgrade/blob/dab41946149baf2f06dda8c77b9e909ccd502b31/update_containers.py#L88
 	req, err := c.apiClient.NewRequest(func(query url.Values) {
 		query.Add("api", "SYNO.Docker.Container")
 		query.Add("version", "1")

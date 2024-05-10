@@ -35,3 +35,17 @@ Run the `synoctl login` and follow the prompts to authenticate with your Synolog
 |        |            | logs    | prints container logs from target container   |
 
 All commands provide a `--help` command explaining their use.
+
+
+## Thanks
+
+Making a terminal animation with [VHS](https://github.com/charmbracelet/vhs) was super fun
+
+I came across many examples of folks analyzing and creating clients for the DSM API. Of those, these were particularly informative:
+* https://github.com/Xboarder56/SynoDockerContainerUpgrade
+* https://github.com/cccheng/ruby-synowebapi/tree/master
+* https://github.com/garrettdieckmann/synologyapi
+
+The Synology API has some interesting self-documenting behavior, but parameters for API calls are not documented.
+Watching live requests in the developer console while using the Synology UI is the best strategy - the UI is a web application,
+and it appears to rely on the same APIs that this client library calls.
