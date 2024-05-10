@@ -43,7 +43,7 @@ func (c *client) GetContainerManagerLogs() (*api.ResponseWrapper[*ContainerManag
 		query.Add("loglevel", `""`)
 		query.Add("filter_content", `""`)
 		query.Add("sort_by", `"time"`)
-		query.Add("sort_dir", `"DESC"`)
+		query.Add("sort_dir", `"ASC"`)
 	})
 	if err != nil {
 		return nil, err
@@ -70,7 +70,7 @@ func (c *client) GetContainerLogs(name string) (*api.ResponseWrapper[*ContainerL
 		query.Add("level", `""`)
 		query.Add("keyword", "")
 		query.Add("sort_by", "time")
-		query.Add("sort_dir", `"DESC"`)
+		query.Add("sort_dir", `"ASC"`)
 	})
 	if err != nil {
 		return nil, err
