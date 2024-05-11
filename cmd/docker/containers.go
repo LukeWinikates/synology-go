@@ -11,8 +11,8 @@ import (
 	"github.com/spf13/cobra"
 )
 
-func Cmd(newClient func() api.Client) *cobra.Command {
-	containerCmd := &cobra.Command{
+func containerCmd(newClient func() api.Client) *cobra.Command {
+	cmd := &cobra.Command{
 		Use:     "container",
 		Aliases: []string{"containers"},
 		Long: `
@@ -20,22 +20,11 @@ The containers command lists, describes, restarts, and shows logs for containers
 `,
 	}
 
-	containerCmd.AddCommand(listCmd(newClient))
-	containerCmd.AddCommand(restartCmd(newClient))
-	containerCmd.AddCommand(getCmd(newClient))
-	containerCmd.AddCommand(containerLogsCmd(newClient))
-
-	dockerCmd := &cobra.Command{
-		Use: "docker",
-		Long: `
-The docker command communicates with the Container Manager application. 
-Use it to examine, restart, or delete containers, or to view logs from your containers.`,
-	}
-
-	dockerCmd.AddCommand(containerCmd)
-	dockerCmd.AddCommand(logsCmd(newClient))
-
-	return dockerCmd
+	cmd.AddCommand(listCmd(newClient))
+	cmd.AddCommand(restartCmd(newClient))
+	cmd.AddCommand(getCmd(newClient))
+	cmd.AddCommand(containerLogsCmd(newClient))
+	return cmd
 }
 
 func getCmd(newClient func() api.Client) *cobra.Command {
@@ -90,30 +79,6 @@ func containerLogsCmd(newClient func() api.Client) *cobra.Command {
 	cmd.Flags().StringVarP(&name, "name", "n", "", "container name")
 	must(cmd.MarkFlagRequired("name"))
 	cmd.Flags().BoolVarP(&simple, "simple", "s", false, "only print log content")
-
-	return cmd
-}
-func logsCmd(newClient func() api.Client) *cobra.Command {
-	cmd := &cobra.Command{
-		Use: "logs",
-		Long: `
-The logs command lists the recent container lifecycle events logged by the Container Manger application
-
-If you are looking for container logs, see: dsmctl docker container logs --name $CONTAINER_NAME
-`,
-		RunE: func(_ *cobra.Command, _ []string) error {
-			apiClient := newClient()
-			response, err := docker.NewClient(apiClient).GetContainerManagerLogs()
-			if err != nil {
-				return err
-			}
-
-			for _, logLine := range response.Data.Logs {
-				fmt.Printf("[%s] %s: %s\n", logLine.Level, logLine.Time, logLine.Event)
-			}
-			return nil
-		},
-	}
 
 	return cmd
 }

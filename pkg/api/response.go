@@ -14,9 +14,12 @@ type LoginResponse struct {
 	Sid          string `json:"sid"`
 }
 
+type Error map[string]interface{}
+
 type ResponseWrapper[T any] struct {
-	Data    T    `json:"data"`
-	Success bool `json:"success"`
+	Data    T     `json:"data"`
+	Error   Error `json:"error"`
+	Success bool  `json:"success"`
 }
 
 type ListResponse struct {
