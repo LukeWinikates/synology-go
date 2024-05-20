@@ -1,6 +1,7 @@
 package api
 
 import (
+	"bytes"
 	"encoding/json"
 	"fmt"
 	"io"
@@ -9,8 +10,12 @@ import (
 )
 
 func ParseResponse[T any](responseBody io.Reader) (*ResponseWrapper[T], error) {
+	body, err := io.ReadAll(responseBody)
+	if err != nil {
+		return nil, err
+	}
 	var jsonResponse *ResponseWrapper[T]
-	err := json.NewDecoder(responseBody).Decode(&jsonResponse)
+	err = json.NewDecoder(bytes.NewBuffer(body)).Decode(&jsonResponse)
 	if err != nil {
 		return nil, err
 	}
