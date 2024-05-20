@@ -2,13 +2,14 @@ package login
 
 import (
 	"fmt"
+	"log"
+	"os"
+	"syscall"
+
 	"github.com/LukeWinikates/synology-go/pkg/api"
 	"github.com/spf13/cobra"
 	"golang.org/x/term"
 	"gopkg.in/yaml.v3"
-	"log"
-	"os"
-	"syscall"
 )
 
 type SessionProvider struct {
@@ -66,9 +67,9 @@ func Cmd(sp *SessionProvider) *cobra.Command {
 			}
 			err = sp.SaveSession()
 			if err != nil {
-				fmt.Println("login succeeded")
+				fmt.Fprintf(os.Stderr, "login failed: %s\n", err.Error())
 			} else {
-				fmt.Fprintln(os.Stderr, "login failed")
+				fmt.Println("login succeeded")
 			}
 			return err
 		},

@@ -2,14 +2,15 @@ package main
 
 import (
 	"fmt"
+	"log"
+	"os"
+	"path/filepath"
+
 	"github.com/LukeWinikates/synology-go/cmd/docker"
 	"github.com/LukeWinikates/synology-go/cmd/login"
 	"github.com/LukeWinikates/synology-go/pkg/api"
 	"github.com/adrg/xdg"
 	"github.com/spf13/cobra"
-	"log"
-	"os"
-	"path/filepath"
 )
 
 func ensureConfigFile() (string, error) {
