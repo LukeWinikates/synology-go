@@ -14,6 +14,7 @@ type Client interface {
 	Login(user, password string) (*ResponseWrapper[*LoginResponse], error)
 	GetInfo() (*ResponseWrapper[*Info], error)
 	NewRequest(queryTransformer func(query url.Values)) (*http.Request, error)
+	NewPOSTRequest(queryTransformer func(query url.Values)) (*http.Request, error)
 }
 
 func NewClient(baseURL string) (Client, error) {
@@ -27,6 +28,19 @@ func NewClientWithSessionID(baseURL, sessionID string) (Client, error) {
 
 func PerformRequest[T any](client Client, queryTransformer func(query url.Values)) (*ResponseWrapper[T], error) {
 	req, err := client.NewRequest(queryTransformer)
+	if err != nil {
+		return nil, err
+	}
+	resp, err := http.DefaultClient.Do(req)
+	if err != nil {
+		return nil, err
+	}
+	defer resp.Body.Close()
+	return ParseResponse[T](resp.Body)
+}
+
+func PerformPOSTRequest[T any](client Client, queryTransformer func(query url.Values)) (*ResponseWrapper[T], error) {
+	req, err := client.NewPOSTRequest(queryTransformer)
 	if err != nil {
 		return nil, err
 	}
