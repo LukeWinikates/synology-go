@@ -1,10 +1,10 @@
 package docker
 
 import (
-	"fmt"
-
+	"github.com/LukeWinikates/synology-go/cmd/docker/containers"
+	"github.com/LukeWinikates/synology-go/cmd/docker/manager"
+	"github.com/LukeWinikates/synology-go/cmd/docker/projects"
 	"github.com/LukeWinikates/synology-go/pkg/api"
-	"github.com/LukeWinikates/synology-go/pkg/docker"
 	"github.com/spf13/cobra"
 )
 
@@ -13,37 +13,11 @@ func Cmd(newClient func() api.Client) *cobra.Command {
 		Use: "docker",
 		Long: `
 The docker command communicates with the Container Manager application. 
-Use it to examine, restart, or delete containers, or to view logs from your containers.`,
+Use it to examine, restart, or delete containers and projects, or to view logs from your containers.`,
 	}
-	dockerCmd.AddCommand(logsCmd(newClient))
-
-	dockerCmd.AddCommand(containerCmd(newClient))
-	dockerCmd.AddCommand(projectsCmd(newClient))
+	dockerCmd.AddCommand(manager.Cmd(newClient))
+	dockerCmd.AddCommand(containers.Cmd(newClient))
+	dockerCmd.AddCommand(projects.Cmd(newClient))
 
 	return dockerCmd
-}
-
-func logsCmd(newClient func() api.Client) *cobra.Command {
-	cmd := &cobra.Command{
-		Use: "logs",
-		Long: `
-The logs command lists the recent container lifecycle events logged by the Container Manger application
-
-If you are looking for container logs, see: dsmctl docker container logs --name $CONTAINER_NAME
-`,
-		RunE: func(_ *cobra.Command, _ []string) error {
-			apiClient := newClient()
-			response, err := docker.NewClient(apiClient).GetContainerManagerLogs()
-			if err != nil {
-				return err
-			}
-
-			for _, logLine := range response.Data.Logs {
-				fmt.Printf("[%s] %s: %s\n", logLine.Level, logLine.Time, logLine.Event)
-			}
-			return nil
-		},
-	}
-
-	return cmd
 }

@@ -7,6 +7,7 @@ import (
 	"io"
 	"net/http"
 	"net/url"
+	"strings"
 )
 
 func ParseResponse[T any](responseBody io.Reader) (*ResponseWrapper[T], error) {
@@ -20,7 +21,7 @@ func ParseResponse[T any](responseBody io.Reader) (*ResponseWrapper[T], error) {
 		return nil, err
 	}
 	if !jsonResponse.Success {
-		return nil, fmt.Errorf("failed request")
+		return nil, fmt.Errorf("failed request: %s", jsonResponse.Error.ErrorCodeDescription())
 	}
 	return jsonResponse, err
 }
@@ -41,4 +42,17 @@ func (c *client) NewRequestWithoutAuth(queryTransformer func(query url.Values)) 
 	queryTransformer(query)
 	req.URL.RawQuery = query.Encode()
 	return req, nil
+}
+
+func (c *client) NewPOSTRequest(queryTransformer func(query url.Values)) (*http.Request, error) {
+	form := url.Values{}
+	queryTransformer(form)
+	form.Add("_sid", c.SessionID)
+
+	req, err := http.NewRequest(
+		"POST",
+		c.BaseURL+"/webapi/entry.cgi/"+form.Get("api"),
+		strings.NewReader(form.Encode()),
+	)
+	return req, err
 }
