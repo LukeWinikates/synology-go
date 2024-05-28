@@ -56,3 +56,7 @@ func (c *client) NewPOSTRequest(queryTransformer func(query url.Values)) (*http.
 	)
 	return req, err
 }
+
+func WrapQuote(s string) string {
+	return fmt.Sprintf(`"%s"`, s)
+}
