@@ -1,7 +1,9 @@
 package containers
 
 import (
+	"fmt"
 	"github.com/LukeWinikates/synology-go/internal"
+	"github.com/LukeWinikates/synology-go/pkg/docker/containers"
 	"github.com/spf13/cobra"
 )
 
@@ -15,12 +17,15 @@ func getCmd(builder commandBuilder) *cobra.Command {
 			if err != nil {
 				return err
 			}
-
-			err = builder.containerWriter.Write(*response.Data)
+			fmt.Println(response)
+			writer := internal.NewTableWriter[*containers.DetailsAndProfile]([]string{"Name"}, func(item *containers.DetailsAndProfile) []string {
+				return []string{item.Profile.Name}
+			})
+			err = writer.Write(response.Data)
 			if err != nil {
 				return err
 			}
-			return builder.containerWriter.Flush()
+			return writer.Flush()
 		},
 	}
 	cmd.Flags().StringVar(&name, "name", "", "container name")

@@ -34,6 +34,8 @@ func Cmd(newClient func() api.Client) *cobra.Command {
 
 	cmd.AddCommand(listCmd(builder))
 	cmd.AddCommand(restartCmd(builder))
+	cmd.AddCommand(startCmd(builder))
+	cmd.AddCommand(stopCmd(builder))
 	cmd.AddCommand(getCmd(builder))
 	cmd.AddCommand(containerLogsCmd(builder))
 	return cmd
