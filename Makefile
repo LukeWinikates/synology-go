@@ -1,3 +1,4 @@
+.PHONY: test integration-test setup
 build/synoctl: build/ $(shell find . -iname "*.go")
 	go build -o $@ cmd/main.go
 
@@ -10,3 +11,6 @@ test:
 
 integration-test:
 	go test -v ./...  --tags=integration
+
+setup:
+	 brew install golangci-lint
