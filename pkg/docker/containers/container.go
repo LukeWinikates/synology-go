@@ -8,28 +8,17 @@ import (
 	"github.com/LukeWinikates/synology-go/pkg/api"
 )
 
-func (c *client) GetContainer(name string) (string, error) {
-	req, err := c.apiClient.NewRequest(func(query url.Values) {
+func (c *client) GetContainer(name string) (*api.ResponseWrapper[*Container], error) {
+	return api.PerformRequest[*Container](c.apiClient, func(query url.Values) {
 		query.Add("api", "SYNO.Docker.Container")
 		query.Add("version", "1")
 		query.Add("method", "get")
 		query.Add("name", name)
 	})
-	if err != nil {
-		return "", err
-	}
-	resp, err := http.DefaultClient.Do(req)
-	if err != nil {
-		return "", err
-	}
-	defer resp.Body.Close()
-	b, err := io.ReadAll(resp.Body)
-
-	return string(b), err
 }
 
 func (c *client) ListContainers() (*api.ResponseWrapper[*ContainerList], error) {
-	req, err := c.apiClient.NewRequest(func(query url.Values) {
+	return api.PerformRequest[*ContainerList](c.apiClient, func(query url.Values) {
 		query.Add("api", "SYNO.Docker.Container")
 		query.Add("version", "1")
 		query.Add("method", "list")
@@ -37,15 +26,6 @@ func (c *client) ListContainers() (*api.ResponseWrapper[*ContainerList], error) 
 		query.Add("offset", "0")
 		query.Add("type", "all")
 	})
-	if err != nil {
-		return nil, err
-	}
-	resp, err := http.DefaultClient.Do(req)
-	if err != nil {
-		return nil, err
-	}
-	defer resp.Body.Close()
-	return api.ParseResponse[*ContainerList](resp.Body)
 }
 
 func (c *client) StopContainer(name string) (string, error) {
@@ -89,19 +69,10 @@ func (c *client) StartContainer(name string) (string, error) {
 }
 
 func (c *client) RestartContainer(name string) (*api.ResponseWrapper[*ContainerRestart], error) {
-	req, err := c.apiClient.NewRequest(func(query url.Values) {
+	return api.PerformRequest[*ContainerRestart](c.apiClient, func(query url.Values) {
 		query.Add("api", "SYNO.Docker.Container")
 		query.Add("version", "1")
 		query.Add("method", "restart")
 		query.Add("name", name)
 	})
-	if err != nil {
-		return nil, err
-	}
-	resp, err := http.DefaultClient.Do(req)
-	if err != nil {
-		return nil, err
-	}
-	defer resp.Body.Close()
-	return api.ParseResponse[*ContainerRestart](resp.Body)
 }

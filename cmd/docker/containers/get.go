@@ -1,28 +1,26 @@
 package containers
 
 import (
-	"fmt"
-
 	"github.com/LukeWinikates/synology-go/internal"
-	"github.com/LukeWinikates/synology-go/pkg/api"
-	"github.com/LukeWinikates/synology-go/pkg/docker/containers"
 	"github.com/spf13/cobra"
 )
 
-func getCmd(newClient func() api.Client) *cobra.Command {
+func getCmd(builder commandBuilder) *cobra.Command {
 	var name string
 	cmd := &cobra.Command{
 		Use:  "get",
 		Long: "",
 		RunE: func(_ *cobra.Command, _ []string) error {
-			apiClient := newClient()
-			response, err := containers.NewClient(apiClient).GetContainer(name)
+			response, err := builder.newClient().GetContainer(name)
 			if err != nil {
 				return err
 			}
 
-			fmt.Println(response)
-			return nil
+			err = builder.containerWriter.Write(*response.Data)
+			if err != nil {
+				return err
+			}
+			return builder.containerWriter.Flush()
 		},
 	}
 	cmd.Flags().StringVar(&name, "name", "", "container name")

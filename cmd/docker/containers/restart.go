@@ -4,20 +4,17 @@ import (
 	"fmt"
 
 	"github.com/LukeWinikates/synology-go/internal"
-	"github.com/LukeWinikates/synology-go/pkg/api"
-	"github.com/LukeWinikates/synology-go/pkg/docker/containers"
 	"github.com/spf13/cobra"
 )
 
-func restartCmd(newClient func() api.Client) *cobra.Command {
+func restartCmd(builder commandBuilder) *cobra.Command {
 	var name string
 
 	cmd := &cobra.Command{
 		Use:  "restart",
 		Long: "",
 		RunE: func(_ *cobra.Command, _ []string) error {
-			apiClient := newClient()
-			response, err := containers.NewClient(apiClient).RestartContainer(name)
+			response, err := builder.newClient().RestartContainer(name)
 			if err != nil {
 				return err
 			}

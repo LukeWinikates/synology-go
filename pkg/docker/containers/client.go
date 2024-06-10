@@ -10,7 +10,7 @@ type Client interface {
 	RestartContainer(name string) (*api.ResponseWrapper[*ContainerRestart], error)
 	StopContainer(name string) (string, error)
 	StartContainer(name string) (string, error)
-	GetContainer(name string) (string, error)
+	GetContainer(name string) (*api.ResponseWrapper[*Container], error)
 	GetContainerLogs(name string) (*api.ResponseWrapper[*ContainerLogsResponse], error)
 }
 

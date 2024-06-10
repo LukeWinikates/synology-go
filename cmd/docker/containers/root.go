@@ -1,9 +1,16 @@
 package containers
 
 import (
+	"github.com/LukeWinikates/synology-go/internal"
 	"github.com/LukeWinikates/synology-go/pkg/api"
+	"github.com/LukeWinikates/synology-go/pkg/docker/containers"
 	"github.com/spf13/cobra"
 )
+
+type commandBuilder struct {
+	newClient       func() containers.Client
+	containerWriter internal.TableWriter[containers.Container]
+}
 
 func Cmd(newClient func() api.Client) *cobra.Command {
 	cmd := &cobra.Command{
@@ -12,9 +19,22 @@ func Cmd(newClient func() api.Client) *cobra.Command {
 		Long:    `The containers command lists, describes, restarts, and shows logs for containers`,
 	}
 
-	cmd.AddCommand(listCmd(newClient))
-	cmd.AddCommand(restartCmd(newClient))
-	cmd.AddCommand(getCmd(newClient))
-	cmd.AddCommand(containerLogsCmd(newClient))
+	builder := commandBuilder{
+		newClient: func() containers.Client {
+			return containers.NewClient(newClient())
+		},
+		containerWriter: internal.NewTableWriter[containers.Container](
+			[]string{"Name", "Status"}, func(item containers.Container) []string {
+				return []string{
+					item.Name,
+					item.Status,
+				}
+			}),
+	}
+
+	cmd.AddCommand(listCmd(builder))
+	cmd.AddCommand(restartCmd(builder))
+	cmd.AddCommand(getCmd(builder))
+	cmd.AddCommand(containerLogsCmd(builder))
 	return cmd
 }
