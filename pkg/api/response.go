@@ -42,6 +42,17 @@ var ERRORS = map[int]string{
 	118: "the network connection is unstable or the system is busy",
 	119: "invalid session",
 	150: "request source IP does not match the login IP",
+
+	400: "No such account or incorrect password",
+	401: "Disabled account",
+	402: "Denied permission",
+	403: "2-factor authentication code required",
+	404: "Failed to authenticate 2-factor authentication code",
+	406: "Enforce to authenticate with 2-factor authentication code",
+	407: "Blocked IP source",
+	408: "Expired password cannot change",
+	409: "Expired password",
+	410: "Password must be changed",
 }
 
 func (e Error) ErrorCodeDescription() string {
