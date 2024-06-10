@@ -2,10 +2,10 @@ package images
 
 import (
 	"fmt"
-	"github.com/LukeWinikates/synology-go/pkg/api"
 	"time"
 
 	"github.com/LukeWinikates/synology-go/internal"
+	"github.com/LukeWinikates/synology-go/pkg/api"
 	"github.com/LukeWinikates/synology-go/pkg/docker/images"
 	"github.com/spf13/cobra"
 )
