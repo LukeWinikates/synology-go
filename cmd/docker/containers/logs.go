@@ -4,20 +4,17 @@ import (
 	"fmt"
 
 	"github.com/LukeWinikates/synology-go/internal"
-	"github.com/LukeWinikates/synology-go/pkg/api"
-	"github.com/LukeWinikates/synology-go/pkg/docker/containers"
 	"github.com/spf13/cobra"
 )
 
-func containerLogsCmd(newClient func() api.Client) *cobra.Command {
+func containerLogsCmd(builder commandBuilder) *cobra.Command {
 	var name string
 	var simple bool
 	cmd := &cobra.Command{
 		Use:  "logs",
 		Long: "",
 		RunE: func(_ *cobra.Command, _ []string) error {
-			apiClient := newClient()
-			response, err := containers.NewClient(apiClient).GetContainerLogs(name)
+			response, err := builder.newClient().GetContainerLogs(name)
 			if err != nil {
 				return err
 			}

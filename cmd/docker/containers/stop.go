@@ -7,22 +7,21 @@ import (
 	"github.com/spf13/cobra"
 )
 
-func restartCmd(builder commandBuilder) *cobra.Command {
+func stopCmd(builder commandBuilder) *cobra.Command {
 	var name string
 
 	cmd := &cobra.Command{
-		Use:  "restart",
+		Use:  "stop",
 		Long: "",
 		RunE: func(_ *cobra.Command, _ []string) error {
-			response, err := builder.newClient().RestartContainer(name)
+			response, err := builder.newClient().StopContainer(name)
 			if err != nil {
 				return err
 			}
-
 			if response.Success {
-				fmt.Printf("Container \"%s\" restarted\n", name)
+				fmt.Printf("Container \"%s\" stopped\n", name)
 			} else {
-				return fmt.Errorf("could not restart container: %s", name)
+				return fmt.Errorf("could not stop container: %s", name)
 			}
 
 			return nil
