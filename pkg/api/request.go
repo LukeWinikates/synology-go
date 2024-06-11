@@ -26,7 +26,7 @@ func ParseResponse[T any](responseBody io.Reader) (*ResponseWrapper[T], error) {
 	return jsonResponse, err
 }
 
-func (c *client) NewRequest(queryTransformer func(query url.Values)) (*http.Request, error) {
+func (c *client) NewGETRequest(queryTransformer func(query url.Values)) (*http.Request, error) {
 	return c.NewRequestWithoutAuth(func(query url.Values) {
 		query.Add("_sid", c.SessionID)
 		queryTransformer(query)
