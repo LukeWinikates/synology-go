@@ -8,7 +8,7 @@ import (
 
 type Log struct {
 	Created time.Time `json:"created"`
-	Docid   string    `json:"docid"`
+	DocID   string    `json:"docid"`
 	Stream  string    `json:"stream"`
 	Text    string    `json:"text"`
 }
@@ -17,56 +17,41 @@ type ContainerLogsResponse struct {
 	Logs []Log `json:"logs"`
 }
 
+type Network struct {
+	Aliases             interface{} `json:"Aliases"`
+	DriverOpts          interface{} `json:"DriverOpts"`
+	EndpointID          string      `json:"EndpointID"`
+	Gateway             string      `json:"Gateway"`
+	GlobalIPv6Address   string      `json:"GlobalIPv6Address"`
+	GlobalIPv6PrefixLen int         `json:"GlobalIPv6PrefixLen"`
+	IPAMConfig          interface{} `json:"IPAMConfig"`
+	IPAddress           string      `json:"IPAddress"`
+	IPPrefixLen         int         `json:"IPPrefixLen"`
+	IPv6Gateway         string      `json:"IPv6Gateway"`
+	Links               interface{} `json:"Links"`
+	MacAddress          string      `json:"MacAddress"`
+	NetworkID           string      `json:"NetworkID"`
+}
+
 type NetworkSettings struct {
-	Bridge                 string      `json:"Bridge"`
-	EndpointID             string      `json:"EndpointID"`
-	Gateway                string      `json:"Gateway"`
-	GlobalIPv6Address      string      `json:"GlobalIPv6Address"`
-	GlobalIPv6PrefixLen    int         `json:"GlobalIPv6PrefixLen"`
-	HairpinMode            bool        `json:"HairpinMode"`
-	IPAddress              string      `json:"IPAddress"`
-	IPPrefixLen            int         `json:"IPPrefixLen"`
-	IPv6Gateway            string      `json:"IPv6Gateway"`
-	LinkLocalIPv6Address   string      `json:"LinkLocalIPv6Address"`
-	LinkLocalIPv6PrefixLen int         `json:"LinkLocalIPv6PrefixLen"`
-	MacAddress             string      `json:"MacAddress"`
-	Ports                  interface{} `json:"Ports"`
-	SandboxID              string      `json:"SandboxID"`
-	SandboxKey             string      `json:"SandboxKey"`
-	SecondaryIPAddresses   interface{} `json:"SecondaryIPAddresses"`
-	SecondaryIPv6Addresses interface{} `json:"SecondaryIPv6Addresses"`
-	Networks               struct {
-		Bridge struct {
-			Aliases             interface{} `json:"Aliases"`
-			DriverOpts          interface{} `json:"DriverOpts"`
-			EndpointID          string      `json:"EndpointID"`
-			Gateway             string      `json:"Gateway"`
-			GlobalIPv6Address   string      `json:"GlobalIPv6Address"`
-			GlobalIPv6PrefixLen int         `json:"GlobalIPv6PrefixLen"`
-			IPAMConfig          interface{} `json:"IPAMConfig"`
-			IPAddress           string      `json:"IPAddress"`
-			IPPrefixLen         int         `json:"IPPrefixLen"`
-			IPv6Gateway         string      `json:"IPv6Gateway"`
-			Links               interface{} `json:"Links"`
-			MacAddress          string      `json:"MacAddress"`
-			NetworkID           string      `json:"NetworkID"`
-		} `json:"bridge,omitempty"`
-		Host struct {
-			Aliases             interface{} `json:"Aliases"`
-			DriverOpts          interface{} `json:"DriverOpts"`
-			EndpointID          string      `json:"EndpointID"`
-			Gateway             string      `json:"Gateway"`
-			GlobalIPv6Address   string      `json:"GlobalIPv6Address"`
-			GlobalIPv6PrefixLen int         `json:"GlobalIPv6PrefixLen"`
-			IPAMConfig          interface{} `json:"IPAMConfig"`
-			IPAddress           string      `json:"IPAddress"`
-			IPPrefixLen         int         `json:"IPPrefixLen"`
-			IPv6Gateway         string      `json:"IPv6Gateway"`
-			Links               interface{} `json:"Links"`
-			MacAddress          string      `json:"MacAddress"`
-			NetworkID           string      `json:"NetworkID"`
-		} `json:"host,omitempty"`
-	} `json:"Networks"`
+	Bridge                 string             `json:"Bridge"`
+	EndpointID             string             `json:"EndpointID"`
+	Gateway                string             `json:"Gateway"`
+	GlobalIPv6Address      string             `json:"GlobalIPv6Address"`
+	GlobalIPv6PrefixLen    int                `json:"GlobalIPv6PrefixLen"`
+	HairpinMode            bool               `json:"HairpinMode"`
+	IPAddress              string             `json:"IPAddress"`
+	IPPrefixLen            int                `json:"IPPrefixLen"`
+	IPv6Gateway            string             `json:"IPv6Gateway"`
+	LinkLocalIPv6Address   string             `json:"LinkLocalIPv6Address"`
+	LinkLocalIPv6PrefixLen int                `json:"LinkLocalIPv6PrefixLen"`
+	MacAddress             string             `json:"MacAddress"`
+	Ports                  interface{}        `json:"Ports"`
+	SandboxID              string             `json:"SandboxID"`
+	SandboxKey             string             `json:"SandboxKey"`
+	SecondaryIPAddresses   interface{}        `json:"SecondaryIPAddresses"`
+	SecondaryIPv6Addresses interface{}        `json:"SecondaryIPv6Addresses"`
+	Networks               map[string]Network `json:"Networks"`
 }
 
 type State struct {
@@ -157,15 +142,15 @@ type Profile struct {
 	CapAdd                interface{}       `json:"CapAdd"`
 	CapDrop               interface{}       `json:"CapDrop"`
 	Cmd                   string            `json:"cmd"`
-	CpuPriority           int               `json:"cpu_priority"`
+	CPUPriority           int               `json:"cpu_priority"`
 	EnablePublishAllPorts bool              `json:"enable_publish_all_ports"`
 	EnableRestartPolicy   bool              `json:"enable_restart_policy"`
 	Enabled               bool              `json:"enabled"`
 	EnvVariables          []EnvVariable     `json:"env_variables"`
 	Exporting             bool              `json:"exporting"`
-	Id                    string            `json:"id"`
+	ID                    string            `json:"id"`
 	Image                 string            `json:"image"`
-	IsDdsm                bool              `json:"is_ddsm"`
+	IsDDSM                bool              `json:"is_ddsm"`
 	IsPackage             bool              `json:"is_package"`
 	Labels                map[string]string `json:"labels"`
 	Links                 []interface{}     `json:"links"`
@@ -186,7 +171,7 @@ type Profile struct {
 		EnableShortcut   bool   `json:"enable_shortcut"`
 		EnableStatusPage bool   `json:"enable_status_page"`
 		EnableWebPage    bool   `json:"enable_web_page"`
-		WebPageUrl       string `json:"web_page_url"`
+		WebPageURL       string `json:"web_page_url"`
 	} `json:"shortcut"`
 	UseHostNetwork bool          `json:"use_host_network"`
 	Version        int           `json:"version"`
@@ -209,21 +194,21 @@ type HostConfig struct {
 	CgroupnsMode         string        `json:"CgroupnsMode"`
 	ConsoleSize          []int         `json:"ConsoleSize"`
 	ContainerIDFile      string        `json:"ContainerIDFile"`
-	CpuCount             int           `json:"CpuCount"`
-	CpuPercent           int           `json:"CpuPercent"`
-	CpuPeriod            int           `json:"CpuPeriod"`
-	CpuQuota             int           `json:"CpuQuota"`
-	CpuRealtimePeriod    int           `json:"CpuRealtimePeriod"`
-	CpuRealtimeRuntime   int           `json:"CpuRealtimeRuntime"`
-	CpuShares            int           `json:"CpuShares"`
-	CpusetCpus           string        `json:"CpusetCpus"`
-	CpusetMems           string        `json:"CpusetMems"`
+	CPUCount             int           `json:"CpuCount"`
+	CPUPercent           int           `json:"CpuPercent"`
+	CPUPeriod            int           `json:"CpuPeriod"`
+	CPUQuota             int           `json:"CpuQuota"`
+	CPURealtimePeriod    int           `json:"CpuRealtimePeriod"`
+	CPURealtimeRuntime   int           `json:"CpuRealtimeRuntime"`
+	CPUShares            int           `json:"CpuShares"`
+	CPUSetCPUs           string        `json:"CpusetCpus"`
+	CPUSetMems           string        `json:"CpusetMems"`
 	DeviceCgroupRules    interface{}   `json:"DeviceCgroupRules"`
 	DeviceRequests       interface{}   `json:"DeviceRequests"`
 	Devices              interface{}   `json:"Devices"`
-	Dns                  interface{}   `json:"Dns"`
-	DnsOptions           interface{}   `json:"DnsOptions"`
-	DnsSearch            interface{}   `json:"DnsSearch"`
+	DNS                  interface{}   `json:"Dns"`
+	DNSOptions           interface{}   `json:"DnsOptions"`
+	DNSSearch            interface{}   `json:"DnsSearch"`
 	Env                  []string      `json:"Env"`
 	ExtraHosts           []interface{} `json:"ExtraHosts"`
 	GroupAdd             interface{}   `json:"GroupAdd"`
@@ -253,7 +238,7 @@ type HostConfig struct {
 	PidMode        string      `json:"PidMode"`
 	PidsLimit      interface{} `json:"PidsLimit"`
 	PortBindings   map[string][]struct {
-		HostIp   string `json:"HostIp"`
+		HostIP   string `json:"HostIp"`
 		HostPort string `json:"HostPort"`
 	} `json:"PortBindings"`
 	Privileged      bool     `json:"Privileged"`
@@ -277,36 +262,38 @@ type HostConfig struct {
 	} `json:"VolumesFrom"`
 }
 
+type Details struct {
+	AppArmorProfile string          `json:"AppArmorProfile"`
+	Args            []interface{}   `json:"Args"`
+	Config          Config          `json:"Config"`
+	Created         time.Time       `json:"Created"`
+	Driver          string          `json:"Driver"`
+	ExecIDs         interface{}     `json:"ExecIDs"`
+	HostConfig      HostConfig      `json:"HostConfig"`
+	HostnamePath    string          `json:"HostnamePath"`
+	HostsPath       string          `json:"HostsPath"`
+	ID              string          `json:"Id"`
+	Image           string          `json:"Image"`
+	LogPath         string          `json:"LogPath"`
+	MountLabel      string          `json:"MountLabel"`
+	Mounts          []Mount         `json:"Mounts"`
+	Name            string          `json:"Name"`
+	NetworkSettings NetworkSettings `json:"NetworkSettings"`
+	Path            string          `json:"Path"`
+	Platform        string          `json:"Platform"`
+	ProcessLabel    string          `json:"ProcessLabel"`
+	ResolvConfPath  string          `json:"ResolvConfPath"`
+	RestartCount    int             `json:"RestartCount"`
+	State           State           `json:"State"`
+	ExeCmd          string          `json:"exe_cmd"`
+	FinishTime      int64           `json:"finish_time"`
+	Memory          int             `json:"memory"`
+	MemoryPercent   float64         `json:"memoryPercent"`
+	Status          string          `json:"status"`
+	UpTime          int             `json:"up_time"`
+}
+
 type DetailsAndProfile struct {
-	Details struct {
-		AppArmorProfile string          `json:"AppArmorProfile"`
-		Args            []interface{}   `json:"Args"`
-		Config          Config          `json:"Config"`
-		Created         time.Time       `json:"Created"`
-		Driver          string          `json:"Driver"`
-		ExecIDs         interface{}     `json:"ExecIDs"`
-		HostConfig      HostConfig      `json:"HostConfig"`
-		HostnamePath    string          `json:"HostnamePath"`
-		HostsPath       string          `json:"HostsPath"`
-		Id              string          `json:"Id"`
-		Image           string          `json:"Image"`
-		LogPath         string          `json:"LogPath"`
-		MountLabel      string          `json:"MountLabel"`
-		Mounts          []Mount         `json:"Mounts"`
-		Name            string          `json:"Name"`
-		NetworkSettings NetworkSettings `json:"NetworkSettings"`
-		Path            string          `json:"Path"`
-		Platform        string          `json:"Platform"`
-		ProcessLabel    string          `json:"ProcessLabel"`
-		ResolvConfPath  string          `json:"ResolvConfPath"`
-		RestartCount    int             `json:"RestartCount"`
-		State           State           `json:"State"`
-		ExeCmd          string          `json:"exe_cmd"`
-		FinishTime      int64           `json:"finish_time"`
-		Memory          int             `json:"memory"`
-		MemoryPercent   float64         `json:"memoryPercent"`
-		Status          string          `json:"status"`
-		UpTime          int             `json:"up_time"`
-	} `json:"details"`
+	Details Details `json:"details"`
 	Profile Profile `json:"profile"`
 }
