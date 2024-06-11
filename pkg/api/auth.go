@@ -1,7 +1,6 @@
 package api
 
 import (
-	"net/http"
 	"net/url"
 )
 
@@ -18,12 +17,7 @@ func (c *client) Login(account, password string) (*ResponseWrapper[*LoginRespons
 	if err != nil {
 		return nil, err
 	}
-	resp, err := http.DefaultClient.Do(req)
-	if err != nil {
-		return nil, err
-	}
-	defer resp.Body.Close()
-	authResponse, err := ParseResponse[*LoginResponse](resp.Body)
+	authResponse, err := performRequest[*LoginResponse](req)
 	if err != nil {
 		return nil, err
 	}

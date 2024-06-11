@@ -6,7 +6,7 @@ import (
 )
 
 func (c *client) GetInfo() (*ResponseWrapper[*Info], error) {
-	req, err := c.NewRequest(func(query url.Values) {
+	req, err := c.NewGETRequest(func(query url.Values) {
 		query.Add("api", "SYNO.API.Info")
 		query.Add("version", "1")
 		query.Add("method", "query")

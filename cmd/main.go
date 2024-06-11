@@ -11,6 +11,7 @@ import (
 	"github.com/LukeWinikates/synology-go/pkg/api"
 	"github.com/adrg/xdg"
 	"github.com/spf13/cobra"
+	"go.uber.org/zap"
 )
 
 func ensureConfigFile() (string, error) {
@@ -28,12 +29,24 @@ func ensureConfigFile() (string, error) {
 }
 
 func rootCmd(sp *login.SessionProvider) *cobra.Command {
+	debug := false
+
 	cmd := &cobra.Command{
 		Use: "synoctl",
 		Long: `
 synoctl is a utility for interacting with your Synology NAS from a remote terminal
+`,
+		PersistentPreRunE: func(_ *cobra.Command, _ []string) error {
+			if debug {
+				development, err := zap.NewDevelopment()
+				api.SetLogger(development)
+				return err
+			}
+			return nil
+		},
+	}
+	cmd.PersistentFlags().BoolVarP(&debug, "debug", "d", false, "")
 
-`}
 	cmd.AddCommand(docker.Cmd(func() api.Client {
 		apiClient, err := api.NewClientWithSessionID(sp.Host, sp.SessionID)
 		if err != nil {
