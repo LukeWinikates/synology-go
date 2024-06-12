@@ -1,8 +1,6 @@
 package containers
 
 import (
-	"fmt"
-
 	"github.com/LukeWinikates/synology-go/internal"
 	"github.com/LukeWinikates/synology-go/pkg/docker/containers"
 	"github.com/spf13/cobra"
@@ -18,7 +16,8 @@ func getCmd(builder commandBuilder) *cobra.Command {
 			if err != nil {
 				return err
 			}
-			fmt.Println(response)
+			commandRunner.Client().GetContainer(name)
+			commandRunner.WriteOutput(response.Data)
 			writer := internal.NewTableWriter[*containers.DetailsAndProfile]([]string{"Name"}, func(item *containers.DetailsAndProfile) []string {
 				return []string{item.Profile.Name}
 			})
