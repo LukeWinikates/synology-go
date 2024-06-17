@@ -27,6 +27,8 @@ Run the `synoctl login` and follow the prompts to authenticate with your Synolog
 
 | app    | resource   | command        | description                                                               |
 |--------|------------|----------------|---------------------------------------------------------------------------|
+| -      | -          | login          | logs the synoctl client into the target synology server                   |
+| -      | -          | curl           | calls an arbitrary Synology API based on user input, and returns the response as pretty-printed JSON                  |
 | docker | manager    | logs           | prints logs from the Container Manger app                                 |
 | docker | containers | list           | lists all containers                                                      |
 |        |            | restart        | restarts container specified with --name flag                             |
