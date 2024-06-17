@@ -6,6 +6,7 @@ import (
 	"os"
 	"path/filepath"
 
+	"github.com/LukeWinikates/synology-go/cmd/curl"
 	"github.com/LukeWinikates/synology-go/cmd/docker"
 	"github.com/LukeWinikates/synology-go/cmd/login"
 	"github.com/LukeWinikates/synology-go/pkg/api"
@@ -50,6 +51,7 @@ synoctl is a utility for interacting with your Synology NAS from a remote termin
 
 	cmd.AddCommand(docker.Cmd(newAPIClient(sp)))
 	cmd.AddCommand(login.Cmd(sp))
+	cmd.AddCommand(curl.Cmd(newAPIClient(sp)))
 	return cmd
 }
 

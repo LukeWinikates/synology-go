@@ -29,7 +29,6 @@ func (c *client) NewPOST(formTransformer ValueTransformer) (*http.Request, error
 	form := url.Values{}
 	formTransformer(form)
 	c.Authorizer.Apply(form)
-
 	req, err := http.NewRequest(
 		http.MethodPost,
 		c.BaseURL+"/webapi/entry.cgi/"+form.Get("api"),
