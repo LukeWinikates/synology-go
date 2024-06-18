@@ -13,9 +13,10 @@ var knownAPIs map[string]bool
 
 func init() {
 	knownAPIs = map[string]bool{
-		"SYNO.API.Auth":         true,
-		"SYNO.API.Info":         true,
-		"SYNO.Docker.Container": true,
+		"SYNO.API.Auth":             true,
+		"SYNO.API.Info":             true,
+		"SYNO.Docker.Container":     true,
+		"SYNO.Docker.Container.Log": true,
 	}
 }
 
@@ -87,11 +88,53 @@ func main() {
 	if err != nil {
 		panic(err)
 	}
-	analyze(har)
+	report(analyze(har))
 }
 
-func analyze(har HAR) {
-	count := 0
+func report(APIs *DiscoveredAPIs) {
+	for api, methodMap := range APIs.items {
+		fmt.Println(api)
+		for method, discoveredAPIS := range methodMap {
+			fmt.Println(method)
+			for _, a := range discoveredAPIS {
+				fmt.Println(a.params)
+			}
+		}
+	}
+}
+
+type DiscoveredAPI struct {
+	API     string
+	Method  string
+	Version string
+	params  []NameValue
+}
+
+type DiscoveredAPIs struct {
+	items map[string]map[string][]DiscoveredAPI
+}
+
+func (d *DiscoveredAPIs) Add(api, method, version string, params []NameValue) {
+	if _, ok := d.items[api][method]; ok {
+		return
+	}
+
+	item, ok := d.items[api]
+	if !ok {
+		d.items[api] = map[string][]DiscoveredAPI{}
+		item = d.items[api]
+	}
+
+	item[method] = append(item[method], DiscoveredAPI{
+		API:     api,
+		Method:  method,
+		Version: version,
+		params:  params,
+	})
+}
+
+func analyze(har HAR) *DiscoveredAPIs {
+	result := &DiscoveredAPIs{items: map[string]map[string][]DiscoveredAPI{}}
 	for _, entry := range har.Log.Entries {
 		u, err := url.Parse(entry.Request.Url)
 		if err != nil {
@@ -99,16 +142,47 @@ func analyze(har HAR) {
 			continue
 		}
 		if strings.HasPrefix(u.Path, "/webapi/entry.cgi") {
-			if api(entry) != "" && !knownAPIs[api(entry)] {
-				fmt.Println("new api?: ", api(entry))
-				fmt.Println(entry.Request.PostData.Params)
-				count++
-				if count > 5 {
-					break
-				}
+			if api(entry) != "" {
+				result.Add(api(entry), method(entry), version(entry), rest(entry))
 			}
 		}
 	}
+	return result
+}
+
+func method(entry Entry) string {
+	return get("method", entry)
+}
+func version(entry Entry) string {
+	return get("version", entry)
+}
+func rest(entry Entry) []NameValue {
+	var result []NameValue
+	for _, param := range entry.Request.PostData.Params {
+		if param.Name != "method" && param.Name != "version" && param.Name != "api" {
+			result = append(result, param)
+		}
+	}
+	for _, query := range entry.Request.QueryString {
+		if query.Name != "method" && query.Name != "version" && query.Name != "api" {
+			result = append(result, query)
+		}
+	}
+	return result
+}
+
+func get(key string, entry Entry) string {
+	for _, param := range entry.Request.PostData.Params {
+		if param.Name == key {
+			return param.Value
+		}
+	}
+	for _, query := range entry.Request.QueryString {
+		if query.Name == key {
+			return query.Value
+		}
+	}
+	return ""
 }
 
 func api(entry Entry) string {
