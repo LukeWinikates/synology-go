@@ -9,7 +9,7 @@ import (
 const APISynoDockerContainer = "SYNO.Docker.Container"
 
 func (c *client) GetContainer(name string) (*api.ResponseWrapper[*DetailsAndProfile], error) {
-	return api.PerformRequest[*DetailsAndProfile](c.apiClient, func(query url.Values) {
+	return api.GET[*DetailsAndProfile](c.apiClient, func(query url.Values) {
 		query.Add("api", APISynoDockerContainer)
 		query.Add("version", "1")
 		query.Add("method", "get")
@@ -18,7 +18,7 @@ func (c *client) GetContainer(name string) (*api.ResponseWrapper[*DetailsAndProf
 }
 
 func (c *client) ListContainers() (*api.ResponseWrapper[*ContainerList], error) {
-	return api.PerformRequest[*ContainerList](c.apiClient, func(query url.Values) {
+	return api.GET[*ContainerList](c.apiClient, func(query url.Values) {
 		query.Add("api", APISynoDockerContainer)
 		query.Add("version", "1")
 		query.Add("method", "list")
@@ -29,7 +29,7 @@ func (c *client) ListContainers() (*api.ResponseWrapper[*ContainerList], error) 
 }
 
 func (c *client) StopContainer(name string) (*api.ResponseWrapper[*ContainerStats], error) {
-	return api.PerformRequest[*ContainerStats](c.apiClient, func(query url.Values) {
+	return api.GET[*ContainerStats](c.apiClient, func(query url.Values) {
 		query.Add("api", APISynoDockerContainer)
 		query.Add("version", "1")
 		query.Add("method", "stop")
@@ -38,7 +38,7 @@ func (c *client) StopContainer(name string) (*api.ResponseWrapper[*ContainerStat
 }
 
 func (c *client) StartContainer(name string) (*api.ResponseWrapper[*ContainerStats], error) {
-	return api.PerformRequest[*ContainerStats](c.apiClient, func(query url.Values) {
+	return api.GET[*ContainerStats](c.apiClient, func(query url.Values) {
 		query.Add("api", APISynoDockerContainer)
 		query.Add("version", "1")
 		query.Add("method", "start")
@@ -47,7 +47,7 @@ func (c *client) StartContainer(name string) (*api.ResponseWrapper[*ContainerSta
 }
 
 func (c *client) RestartContainer(name string) (*api.ResponseWrapper[*ContainerStats], error) {
-	return api.PerformRequest[*ContainerStats](c.apiClient, func(query url.Values) {
+	return api.GET[*ContainerStats](c.apiClient, func(query url.Values) {
 		query.Add("api", APISynoDockerContainer)
 		query.Add("version", "1")
 		query.Add("method", "restart")

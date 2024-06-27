@@ -6,7 +6,7 @@ import (
 	"os"
 	"syscall"
 
-	"github.com/LukeWinikates/synology-go/pkg/api"
+	"github.com/LukeWinikates/synology-go/pkg/api/auth"
 	"github.com/spf13/cobra"
 	"golang.org/x/term"
 	"gopkg.in/yaml.v3"
@@ -19,11 +19,8 @@ type SessionProvider struct {
 }
 
 func (sp *SessionProvider) Login(acct, pwd string) error {
-	c, err := api.NewClient(sp.Host)
-	if err != nil {
-		return err
-	}
-	response, err := c.Login(acct, pwd)
+	loginClient := auth.NewPasswordLoginClient(sp.Host)
+	response, err := loginClient.Login(acct, pwd)
 	if err != nil {
 		return err
 	}

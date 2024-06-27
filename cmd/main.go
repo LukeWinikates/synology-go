@@ -9,6 +9,7 @@ import (
 	"github.com/LukeWinikates/synology-go/cmd/docker"
 	"github.com/LukeWinikates/synology-go/cmd/login"
 	"github.com/LukeWinikates/synology-go/pkg/api"
+	"github.com/LukeWinikates/synology-go/pkg/api/auth"
 	"github.com/adrg/xdg"
 	"github.com/spf13/cobra"
 	"go.uber.org/zap"
@@ -47,15 +48,15 @@ synoctl is a utility for interacting with your Synology NAS from a remote termin
 	}
 	cmd.PersistentFlags().BoolVarP(&debug, "debug", "d", false, "")
 
-	cmd.AddCommand(docker.Cmd(func() api.Client {
-		apiClient, err := api.NewClientWithSessionID(sp.Host, sp.SessionID)
-		if err != nil {
-			panic(err)
-		}
-		return apiClient
-	}))
+	cmd.AddCommand(docker.Cmd(newAPIClient(sp)))
 	cmd.AddCommand(login.Cmd(sp))
 	return cmd
+}
+
+func newAPIClient(sp *login.SessionProvider) func() api.Client {
+	return func() api.Client {
+		return api.NewClient(sp.Host, auth.NewSessionAuthorizer(sp.SessionID))
+	}
 }
 
 func main() {

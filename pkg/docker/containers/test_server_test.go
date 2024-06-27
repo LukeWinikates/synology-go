@@ -46,15 +46,16 @@ func listHandler(writer http.ResponseWriter, _ *http.Request) {
 	}))
 }
 
-func startServer() (*httptest.Server, *api.TestServer) {
-	s := api.FakeServerHandler("act", "pwd")
+func startServer() *api.TestServer {
+	s := api.FakeServerHandler()
 	s.AddRoute("GET", APISynoDockerContainer, "list", listHandler)
 	s.AddRoute("GET", APISynoDockerContainer, "get", getHandler)
 	s.AddRoute("GET", APISynoDockerContainer, "restart", lifecycleHandler)
 	s.AddRoute("GET", APISynoDockerContainer, "start", lifecycleHandler)
 	s.AddRoute("GET", APISynoDockerContainer, "stop", lifecycleHandler)
 	s.AddRoute("GET", APISynoDockerContainerLog, "get", logsHandler)
-	return httptest.NewServer(s), s
+	s.HTTPServer = httptest.NewServer(s)
+	return s
 }
 
 func logsHandler(writer http.ResponseWriter, request *http.Request) {

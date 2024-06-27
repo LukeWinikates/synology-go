@@ -7,7 +7,7 @@ import (
 )
 
 func (c *client) GetContainerManagerLogs() (*api.ResponseWrapper[*ContainerManagerLogs], error) {
-	return api.PerformRequest[*ContainerManagerLogs](c.apiClient, func(query url.Values) {
+	return api.GET[*ContainerManagerLogs](c.apiClient, func(query url.Values) {
 		query.Add("api", "SYNO.Docker.Log")
 		query.Add("version", "1")
 		query.Add("method", "list")

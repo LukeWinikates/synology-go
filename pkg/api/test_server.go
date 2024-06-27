@@ -2,7 +2,10 @@ package api
 
 import (
 	"encoding/json"
+	"math/rand"
 	"net/http"
+	"net/http/httptest"
+	"strconv"
 
 	"github.com/LukeWinikates/synology-go/internal"
 )
@@ -15,13 +18,40 @@ type mockRoute struct {
 }
 
 type TestServer struct {
-	password string
-	account  string
-	routes   []mockRoute
-	Requests []*http.Request
+	routes     []mockRoute
+	Requests   []*http.Request
+	HTTPServer *httptest.Server
+	sessionID  string
+}
+
+func (t *TestServer) wrapAuth(handler http.HandlerFunc) http.HandlerFunc {
+	return func(writer http.ResponseWriter, request *http.Request) {
+		params := request.URL.Query()
+		if request.Method == http.MethodPost {
+			internal.Must(request.ParseForm())
+			params = request.Form
+		}
+
+		if params.Get("_sid") == t.sessionID {
+			handler(writer, request)
+
+		} else {
+			internal.Must(json.NewEncoder(writer).Encode(&ResponseWrapper[interface{}]{
+				Data: nil,
+				Error: Error{
+					"code": 119,
+				},
+				Success: false,
+			}))
+		}
+	}
+
 }
 
 func (t *TestServer) AddRoute(httpMethod, api, apiMethod string, handler http.HandlerFunc) {
+	if api != "SYNO.API.Auth" {
+		handler = t.wrapAuth(handler)
+	}
 	t.routes = append(t.routes, mockRoute{
 		api:        api,
 		apiMethod:  apiMethod,
@@ -49,28 +79,13 @@ func (t *TestServer) ServeHTTP(writer http.ResponseWriter, request *http.Request
 	}
 	writer.WriteHeader(500)
 }
+func (t *TestServer) Session() string {
+	return t.sessionID
+}
 
-func FakeServerHandler(account string, password string) *TestServer {
-	t := &TestServer{account: account, password: password}
-	t.AddRoute("GET", "SYNO.API.Auth", "login", func(writer http.ResponseWriter, request *http.Request) {
-		query := request.URL.Query()
-		if query["passwd"][0] == t.password && query["account"][0] == t.account {
-			internal.Must(json.NewEncoder(writer).Encode(&ResponseWrapper[*LoginResponse]{
-				Data: &LoginResponse{
-					Did:          "20102",
-					IsPortalPort: false,
-					Sid:          "414141",
-				},
-				Error:   nil,
-				Success: true,
-			}))
-		} else {
-			internal.Must(json.NewEncoder(writer).Encode(&ResponseWrapper[*LoginResponse]{
-				Data:    nil,
-				Error:   map[string]interface{}{"code": 400},
-				Success: false,
-			}))
-		}
-	})
+func FakeServerHandler() *TestServer {
+	t := &TestServer{
+		sessionID: strconv.Itoa(rand.Int()),
+	}
 	return t
 }

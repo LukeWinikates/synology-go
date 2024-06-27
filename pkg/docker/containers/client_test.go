@@ -4,38 +4,38 @@ import (
 	"testing"
 
 	"github.com/LukeWinikates/synology-go/pkg/api"
+	"github.com/LukeWinikates/synology-go/pkg/api/auth"
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
 )
 
 func TestListContainers(t *testing.T) {
-	server, _ := startServer()
-	newClient, err := api.NewClient(server.URL)
-	require.NoError(t, err)
+	testServer := startServer()
+	newClient := api.NewClient(testServer.HTTPServer.URL, auth.NewSessionAuthorizer(testServer.Session()))
 	c := NewClient(newClient)
+
 	containers, err := c.ListContainers()
 	require.NoError(t, err)
 	assert.NotEmpty(t, containers.Data.Containers)
-	defer server.Close()
+	defer testServer.HTTPServer.Close()
 }
 
 func TestGetContainer(t *testing.T) {
-	server, _ := startServer()
+	testServer := startServer()
+	newClient := api.NewClient(testServer.HTTPServer.URL, auth.NewSessionAuthorizer(testServer.Session()))
 
-	newClient, err := api.NewClient(server.URL)
-	require.NoError(t, err)
 	c := NewClient(newClient)
 	containers, err := c.GetContainer("hello-world")
 	require.NoError(t, err)
 	assert.Equal(t, "hello-world", containers.Data.Details.Name)
-	defer server.Close()
+	defer testServer.HTTPServer.Close()
 }
 
 func TestStartContainer(t *testing.T) {
-	server, _ := startServer()
-	defer server.Close()
-	newClient, err := api.NewClient(server.URL)
-	require.NoError(t, err)
+	testServer := startServer()
+
+	defer testServer.HTTPServer.Close()
+	newClient := api.NewClient(testServer.HTTPServer.URL, auth.NewSessionAuthorizer(testServer.Session()))
 	c := NewClient(newClient)
 	containers, err := c.StartContainer("hello-world")
 	require.NoError(t, err)
@@ -43,10 +43,10 @@ func TestStartContainer(t *testing.T) {
 }
 
 func TestStopContainer(t *testing.T) {
-	server, _ := startServer()
-	defer server.Close()
-	newClient, err := api.NewClient(server.URL)
-	require.NoError(t, err)
+	testServer := startServer()
+	defer testServer.HTTPServer.Close()
+
+	newClient := api.NewClient(testServer.HTTPServer.URL, auth.NewSessionAuthorizer(testServer.Session()))
 	c := NewClient(newClient)
 	containers, err := c.StopContainer("hello-world")
 	require.NoError(t, err)
@@ -54,11 +54,10 @@ func TestStopContainer(t *testing.T) {
 }
 
 func TestRestartContainer(t *testing.T) {
-	server, _ := startServer()
-	defer server.Close()
+	testServer := startServer()
+	defer testServer.HTTPServer.Close()
 
-	newClient, err := api.NewClient(server.URL)
-	require.NoError(t, err)
+	newClient := api.NewClient(testServer.HTTPServer.URL, auth.NewSessionAuthorizer(testServer.Session()))
 	c := NewClient(newClient)
 	containers, err := c.RestartContainer("hello-world")
 	require.NoError(t, err)

@@ -20,7 +20,7 @@ type client struct {
 }
 
 func (c *client) StartPull(repository string, tag string) (*api.ResponseWrapper[*Task], error) {
-	return api.PerformRequest[*Task](c.apiClient, func(query url.Values) {
+	return api.GET[*Task](c.apiClient, func(query url.Values) {
 		query.Add("api", "SYNO.Docker.Image")
 		query.Add("version", "1")
 		query.Add("method", "pull_start")
@@ -31,7 +31,7 @@ func (c *client) StartPull(repository string, tag string) (*api.ResponseWrapper[
 }
 
 func (c *client) GetPullStatus(taskID string) (*api.ResponseWrapper[*PullStatus], error) {
-	return api.PerformRequest[*PullStatus](c.apiClient, func(query url.Values) {
+	return api.GET[*PullStatus](c.apiClient, func(query url.Values) {
 		query.Add("api", "SYNO.Docker.Image")
 		query.Add("version", "1")
 		query.Add("method", "pull_status")
@@ -41,7 +41,7 @@ func (c *client) GetPullStatus(taskID string) (*api.ResponseWrapper[*PullStatus]
 }
 
 func (c *client) Get(imageName, tag string) (*api.ResponseWrapper[*Image], error) {
-	return api.PerformRequest[*Image](c.apiClient, func(query url.Values) {
+	return api.GET[*Image](c.apiClient, func(query url.Values) {
 		query.Add("api", "SYNO.Docker.Image")
 		query.Add("version", "1")
 		query.Add("method", "get")
@@ -51,7 +51,7 @@ func (c *client) Get(imageName, tag string) (*api.ResponseWrapper[*Image], error
 }
 
 func (c *client) StartUpgradeCheck(repository string) (*api.ResponseWrapper[*Task], error) {
-	return api.PerformRequest[*Task](c.apiClient, func(query url.Values) {
+	return api.GET[*Task](c.apiClient, func(query url.Values) {
 		query.Add("api", "SYNO.Docker.Image")
 		query.Add("version", "1")
 		query.Add("method", "upgrade_start")
@@ -60,7 +60,7 @@ func (c *client) StartUpgradeCheck(repository string) (*api.ResponseWrapper[*Tas
 }
 
 func (c *client) GetUpgradeTaskStatus(taskID string) (*api.ResponseWrapper[*UpgradeStatus], error) {
-	return api.PerformRequest[*UpgradeStatus](c.apiClient, func(query url.Values) {
+	return api.GET[*UpgradeStatus](c.apiClient, func(query url.Values) {
 		query.Add("api", "SYNO.Docker.Image")
 		query.Add("version", "1")
 		query.Add("method", "upgrade_status")
@@ -69,7 +69,7 @@ func (c *client) GetUpgradeTaskStatus(taskID string) (*api.ResponseWrapper[*Upgr
 }
 
 func (c *client) List() (*api.ResponseWrapper[*ImageList], error) {
-	return api.PerformRequest[*ImageList](c.apiClient, func(query url.Values) {
+	return api.GET[*ImageList](c.apiClient, func(query url.Values) {
 		query.Add("api", "SYNO.Docker.Image")
 		query.Add("version", "1")
 		query.Add("method", "list")

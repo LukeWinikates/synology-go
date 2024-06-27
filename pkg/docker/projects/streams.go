@@ -12,12 +12,13 @@ func (pc *client) BuildStream(id string, lineReader func(s string)) error {
 }
 
 func (pc *client) streamingRequest(id string, method string, lineReader func(s string)) error {
-	req, err := pc.apiClient.NewGETRequest(func(query url.Values) {
-		query.Add("api", "SYNO.Docker.Project")
-		query.Add("version", "1")
-		query.Add("method", method)
-		query.Add("id", fmt.Sprintf(`"%s"`, id))
-	})
+	req, err := pc.apiClient.NewGET(
+		func(query url.Values) {
+			query.Add("api", "SYNO.Docker.Project")
+			query.Add("version", "1")
+			query.Add("method", method)
+			query.Add("id", fmt.Sprintf(`"%s"`, id))
+		})
 	if err != nil {
 		return err
 	}

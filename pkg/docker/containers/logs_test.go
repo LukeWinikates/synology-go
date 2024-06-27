@@ -4,15 +4,15 @@ import (
 	"testing"
 
 	"github.com/LukeWinikates/synology-go/pkg/api"
+	"github.com/LukeWinikates/synology-go/pkg/api/auth"
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
 )
 
 func TestLogs(t *testing.T) {
-	server, testServer := startServer()
-	defer server.Close()
-	newClient, err := api.NewClient(server.URL)
-	require.NoError(t, err)
+	testServer := startServer()
+	defer testServer.HTTPServer.Close()
+	newClient := api.NewClient(testServer.HTTPServer.URL, auth.NewSessionAuthorizer(testServer.Session()))
 	c := NewClient(newClient)
 	containers, err := c.GetContainerLogs("hello-world")
 	require.NoError(t, err)
