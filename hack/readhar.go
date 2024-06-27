@@ -9,16 +9,16 @@ import (
 	"time"
 )
 
-var knownAPIs map[string]bool
-
-func init() {
-	knownAPIs = map[string]bool{
-		"SYNO.API.Auth":             true,
-		"SYNO.API.Info":             true,
-		"SYNO.Docker.Container":     true,
-		"SYNO.Docker.Container.Log": true,
-	}
-}
+//var knownAPIs map[string]bool
+//
+//func init() {
+//	knownAPIs = map[string]bool{
+//		"SYNO.API.Auth":             true,
+//		"SYNO.API.Info":             true,
+//		"SYNO.Docker.Container":     true,
+//		"SYNO.Docker.Container.Log": true,
+//	}
+//}
 
 type Content struct {
 	MimeType string `json:"mimeType"`
@@ -29,7 +29,7 @@ type Content struct {
 type Response struct {
 	Status      int           `json:"status"`
 	StatusText  string        `json:"statusText"`
-	HttpVersion string        `json:"httpVersion"`
+	HTTPVersion string        `json:"httpVersion"`
 	Headers     []interface{} `json:"headers"`
 	Cookies     []interface{} `json:"cookies"`
 	Content     Content       `json:"content"`
@@ -46,8 +46,8 @@ type NameValue struct {
 type Request struct {
 	BodySize    int         `json:"bodySize"`
 	Method      string      `json:"method"`
-	Url         string      `json:"url"`
-	HttpVersion string      `json:"httpVersion"`
+	URL         string      `json:"url"`
+	HTTPVersion string      `json:"httpVersion"`
 	PostData    PostData    `json:"postData"`
 	Headers     []NameValue `json:"headers"`
 	Cookies     []NameValue `json:"cookies"`
@@ -136,7 +136,7 @@ func (d *DiscoveredAPIs) Add(api, method, version string, params []NameValue) {
 func analyze(har HAR) *DiscoveredAPIs {
 	result := &DiscoveredAPIs{items: map[string]map[string][]DiscoveredAPI{}}
 	for _, entry := range har.Log.Entries {
-		u, err := url.Parse(entry.Request.Url)
+		u, err := url.Parse(entry.Request.URL)
 		if err != nil {
 			fmt.Println(err.Error())
 			continue
