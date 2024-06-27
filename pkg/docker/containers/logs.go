@@ -9,7 +9,7 @@ import (
 const APISynoDockerContainerLog = "SYNO.Docker.Container.Log"
 
 func (c *client) GetContainerLogs(name string) (*api.ResponseWrapper[*ContainerLogsResponse], error) {
-	return api.PerformRequest[*ContainerLogsResponse](c.apiClient, func(query url.Values) {
+	return api.GET[*ContainerLogsResponse](c.apiClient, func(query url.Values) {
 		query.Add("api", APISynoDockerContainerLog)
 		query.Add("version", "1")
 		query.Add("method", "get")

@@ -25,27 +25,28 @@ Run the `synoctl login` and follow the prompts to authenticate with your Synolog
 
 `synoctl` supports these commands. You'll need to install the Container Manager app from Package Center first.
 
-| app    | resource   | command         | description                                                               |
-|--------|------------|-----------------|---------------------------------------------------------------------------|
-| docker | manager    | logs            | prints logs from the Container Manger app                                 |
-| docker | containers | list            | lists all containers                                                      |
-|        |            | restart         | restarts container specified with --name flag                             |
-|        |            | stop            | stops container specified with --name flag                                |
-|        |            | start           | starts container specified with --name flag                               |
-|        |            | logs            | prints container logs from target container                               |
-| docker | projects   | build           | builds the project specified with --id                                    |
-|        |            | create          | creates a new project from a name, share path, and `compose.yaml`         |
-|        |            | get             | gets a project by id                                                      |
-|        |            | list            | lists all projects                                                        |
-|        |            | start           | starts the project specified with --id                                    |
-|        |            | stop            | stops the project specified with --id                                     |
-|        |            | update          | updates the `compose.yaml` contents for the project specified with --name |
-| docker | images     | get             | gets a single image by --name and --tag                                   |
-|        |            | list            | lists all images downloaded to the Container Manager instance             |
-|        |            | pull            | starts a pull task for a --repository and --tag                           |
-|        |            | upgrade         | starts an upgrade task for a --repository                                 |
-|        |            | follow-pull     | polls the status of a previously started pull task                          
-|        |            | follow-upgrade  | polls the status of a previously started upgrade task                     |
+| app    | resource   | command        | description                                                               |
+|--------|------------|----------------|---------------------------------------------------------------------------|
+| docker | manager    | logs           | prints logs from the Container Manger app                                 |
+| docker | containers | list           | lists all containers                                                      |
+|        |            | restart        | restarts container specified with --name flag                             |
+|        |            | stop           | stops container specified with --name flag                                |
+|        |            | start          | starts container specified with --name flag                               |
+|        |            | logs           | prints container logs from target container                               |
+| docker | projects   | build          | builds the project specified with --id                                    |
+|        |            | create         | creates a new project from a name, share path, and `compose.yaml`         |
+|        |            | get            | gets a project by id                                                      |
+|        |            | delete         | deletes a project by id                                                   |
+|        |            | list           | lists all projects                                                        |
+|        |            | start          | starts the project specified with --id                                    |
+|        |            | stop           | stops the project specified with --id                                     |
+|        |            | update         | updates the `compose.yaml` contents for the project specified with --name |
+| docker | images     | get            | gets a single image by --name and --tag                                   |
+|        |            | list           | lists all images downloaded to the Container Manager instance             |
+|        |            | pull           | starts a pull task for a --repository and --tag                           |
+|        |            | upgrade        | starts an upgrade task for a --repository                                 |
+|        |            | follow-pull    | polls the status of a previously started pull task                        
+|        |            | follow-upgrade | polls the status of a previously started upgrade task                     |
 
 All commands provide a `--help` command explaining their use.
 

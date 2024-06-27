@@ -5,7 +5,7 @@ package projects
 
 import (
 	"fmt"
-	"github.com/LukeWinikates/synology-go/pkg/api"
+	"github.com/LukeWinikates/synology-go/pkg/api/auth"
 	"github.com/stretchr/testify/assert"
 	"os"
 	"testing"
@@ -34,14 +34,13 @@ services:
     container_name: hello-world-test4`
 
 func TestProjectLifecycle(t *testing.T) {
-	c, _ := api.NewClient(
-		os.Getenv("DSM_HOST"))
-	_, err := c.Login(
+	loginClient := auth.NewPasswordLoginClient(os.Getenv("DSM_HOST"))
+	_, err := loginClient.Login(
 		os.Getenv("DSM_ACCOUNT"),
 		os.Getenv("DSM_PWD"))
 	assert.NoError(t, err)
+	pc := NewClient(loginClient.NewAPIClient())
 
-	pc := NewClient(c)
 	assert.NoError(t, checkPreconditions(pc, "test1", "/test/test1"))
 
 	createResponse, err := pc.Create("test1", "/test/test1", COMPOSE_FILE_CONTENTS, nil)
@@ -62,14 +61,13 @@ func TestProjectLifecycle(t *testing.T) {
 }
 
 func TestProjectUpdateComposeYaml(t *testing.T) {
-	c, _ := api.NewClient(
-		os.Getenv("DSM_HOST"))
-	_, err := c.Login(
+	loginClient := auth.NewPasswordLoginClient(os.Getenv("DSM_HOST"))
+	_, err := loginClient.Login(
 		os.Getenv("DSM_ACCOUNT"),
 		os.Getenv("DSM_PWD"))
 	assert.NoError(t, err)
+	pc := NewClient(loginClient.NewAPIClient())
 
-	pc := NewClient(c)
 	assert.NoError(t, checkPreconditions(pc, "test1", "/test/test1"))
 
 	createResponse, err := pc.Create("test1", "/test/test1", COMPOSE_FILE_CONTENTS, nil)

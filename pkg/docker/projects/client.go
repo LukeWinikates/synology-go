@@ -30,7 +30,7 @@ type Client interface {
 }
 
 func (pc *client) GetShareInfo(path string) (*api.ResponseWrapper[*ShareInfo], error) {
-	return api.PerformRequest[*ShareInfo](pc.apiClient, func(query url.Values) {
+	return api.GET[*ShareInfo](pc.apiClient, func(query url.Values) {
 		query.Add("api", "SYNO.Docker.Project")
 		query.Add("version", "1")
 		query.Add("method", "get_share_info")
@@ -39,7 +39,7 @@ func (pc *client) GetShareInfo(path string) (*api.ResponseWrapper[*ShareInfo], e
 }
 
 func (pc *client) Get(id string) (*api.ResponseWrapper[*Project], error) {
-	return api.PerformRequest[*Project](pc.apiClient, func(query url.Values) {
+	return api.GET[*Project](pc.apiClient, func(query url.Values) {
 		query.Add("api", "SYNO.Docker.Project")
 		query.Add("version", "1")
 		query.Add("method", "get")
@@ -48,7 +48,7 @@ func (pc *client) Get(id string) (*api.ResponseWrapper[*Project], error) {
 }
 
 func (pc *client) Create(name string, sharePath, content string, servicePortalConfig *ServicePortalConfiguration) (*api.ResponseWrapper[*Project], error) {
-	return api.PerformRequest[*Project](pc.apiClient, func(query url.Values) {
+	return api.GET[*Project](pc.apiClient, func(query url.Values) {
 		query.Add("api", "SYNO.Docker.Project")
 		query.Add("version", "1")
 		query.Add("method", "create")
@@ -62,16 +62,16 @@ func (pc *client) Create(name string, sharePath, content string, servicePortalCo
 }
 
 func (pc *client) Delete(id string) (*api.ResponseWrapper[*DeleteResponse], error) {
-	return api.PerformRequest[*DeleteResponse](pc.apiClient, func(query url.Values) {
+	return api.GET[*DeleteResponse](pc.apiClient, func(query url.Values) {
 		query.Add("api", "SYNO.Docker.Project")
 		query.Add("version", "1")
 		query.Add("method", "delete")
-		query.Add("id", id)
+		query.Add("id", api.WrapQuote(id))
 	})
 }
 
 func (pc *client) List() (*api.ResponseWrapper[ProjectList], error) {
-	return api.PerformRequest[ProjectList](pc.apiClient, func(query url.Values) {
+	return api.GET[ProjectList](pc.apiClient, func(query url.Values) {
 		query.Add("api", "SYNO.Docker.Project")
 		query.Add("version", "1")
 		query.Add("method", "list")
@@ -79,7 +79,7 @@ func (pc *client) List() (*api.ResponseWrapper[ProjectList], error) {
 }
 
 func (pc *client) UpdateContent(id, content string) (*api.ResponseWrapper[*Project], error) {
-	return api.PerformPOSTRequest[*Project](pc.apiClient, func(query url.Values) {
+	return api.POST[*Project](pc.apiClient, func(query url.Values) {
 		query.Add("api", "SYNO.Docker.Project")
 		query.Add("version", "1")
 		query.Add("method", "update")

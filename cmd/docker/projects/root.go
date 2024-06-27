@@ -31,6 +31,7 @@ func Cmd(newClient func() api.Client) *cobra.Command {
 	cmd.AddCommand(projectsStopCmd(builder))
 	cmd.AddCommand(projectsStartCmd(builder))
 	cmd.AddCommand(projectsBuildCmd(builder))
+	cmd.AddCommand(projectsDeleteCmd(builder))
 	return cmd
 }
 

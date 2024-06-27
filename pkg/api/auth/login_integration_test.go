@@ -1,7 +1,7 @@
 //go:build integration
 // +build integration
 
-package api
+package auth
 
 import (
 	"github.com/stretchr/testify/assert"
@@ -10,7 +10,7 @@ import (
 )
 
 func TestLoginIntegration(t *testing.T) {
-	c, _ := NewClient(
+	c := NewPasswordLoginClient(
 		os.Getenv("DSM_HOST"))
 	session, err := c.Login(
 		os.Getenv("DSM_ACCOUNT"),

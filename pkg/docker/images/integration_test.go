@@ -4,21 +4,20 @@
 package images
 
 import (
-	"github.com/LukeWinikates/synology-go/pkg/api"
+	"github.com/LukeWinikates/synology-go/pkg/api/auth"
 	"github.com/stretchr/testify/assert"
 	"os"
 	"testing"
 )
 
 func TestImagesLifecycle(t *testing.T) {
-	c, _ := api.NewClient(
-		os.Getenv("DSM_HOST"))
-	_, err := c.Login(
+	loginClient := auth.NewPasswordLoginClient(os.Getenv("DSM_HOST"))
+	_, err := loginClient.Login(
 		os.Getenv("DSM_ACCOUNT"),
 		os.Getenv("DSM_PWD"))
 	assert.NoError(t, err)
 
-	ic := NewClient(c)
+	ic := NewClient(loginClient.NewAPIClient())
 
 	list, err := ic.List()
 	assert.NoError(t, err)
