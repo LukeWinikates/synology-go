@@ -41,14 +41,27 @@ type commandBuilder struct {
 }
 
 func idRequiredCommand(builder commandBuilder, use string, commandFunc func(client projects.Client, id string) error) *cobra.Command {
-	var id string
+	var id, name string
 	cmd := &cobra.Command{
 		Use: use,
 		RunE: func(_ *cobra.Command, _ []string) error {
+			if id == "" && name != "" {
+				projectList, err := builder.clientFactory().List()
+				if err != nil {
+					return err
+				}
+				for _, p := range projectList.Data {
+					if p.Name == name {
+						id = p.ID
+						break
+					}
+				}
+			}
 			return commandFunc(builder.clientFactory(), id)
 		},
 	}
 	cmd.Flags().StringVarP(&id, "id", "i", "", "project id")
-	internal.Must(cmd.MarkFlagRequired("id"))
+	cmd.Flags().StringVarP(&name, "name", "n", "", "project name")
+	cmd.MarkFlagsOneRequired("id", "name")
 	return cmd
 }
