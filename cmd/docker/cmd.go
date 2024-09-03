@@ -5,6 +5,7 @@ import (
 	"github.com/LukeWinikates/synology-go/cmd/docker/images"
 	"github.com/LukeWinikates/synology-go/cmd/docker/manager"
 	"github.com/LukeWinikates/synology-go/cmd/docker/projects"
+	"github.com/LukeWinikates/synology-go/cmd/docker/registries"
 	"github.com/LukeWinikates/synology-go/pkg/api"
 	"github.com/spf13/cobra"
 )
@@ -20,6 +21,7 @@ Use it to examine, restart, or delete containers and projects, or to view logs f
 	dockerCmd.AddCommand(containers.Cmd(newClient))
 	dockerCmd.AddCommand(projects.Cmd(newClient))
 	dockerCmd.AddCommand(images.Cmd(newClient))
+	dockerCmd.AddCommand(registries.Cmd(newClient))
 
 	return dockerCmd
 }
