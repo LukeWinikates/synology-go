@@ -1,6 +1,7 @@
 package images
 
 import (
+	"errors"
 	"fmt"
 	"time"
 
@@ -114,7 +115,12 @@ func pollPullTask(client images.Client, taskID string) error {
 
 func poll[T any](duration time.Duration, apiCall func() (*api.ResponseWrapper[T], error), finishedPredicate func(response T) bool) error {
 	fmt.Printf("every: %s\n", duration.String())
+	tries := 0
 	for {
+		if tries > 10 {
+			return errors.New("abandoning polling after 10 tries - check container manager logs for errors")
+		}
+		fmt.Println("polling...")
 		resp, err := apiCall()
 		if err != nil {
 			return err
@@ -123,6 +129,7 @@ func poll[T any](duration time.Duration, apiCall func() (*api.ResponseWrapper[T]
 			fmt.Println("done")
 			break
 		}
+		tries++
 		time.Sleep(duration)
 	}
 	return nil
