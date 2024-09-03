@@ -5,6 +5,7 @@ import (
 	"time"
 
 	"github.com/LukeWinikates/synology-go/internal"
+	"github.com/LukeWinikates/synology-go/internal/docker"
 	"github.com/LukeWinikates/synology-go/pkg/api"
 	"github.com/LukeWinikates/synology-go/pkg/docker/images"
 	"github.com/spf13/cobra"
@@ -14,6 +15,12 @@ func upgradeCmd(clientFactory func() images.Client) *cobra.Command {
 	var repository string
 	cmd := &cobra.Command{
 		Use: "upgrade",
+		PreRunE: func(_ *cobra.Command, _ []string) error {
+			if err := docker.ValidateRepositoryName(repository); err != nil {
+				return err
+			}
+			return nil
+		},
 		RunE: func(_ *cobra.Command, _ []string) error {
 			client := clientFactory()
 			taskResponse, err := client.StartUpgradeCheck(repository)
@@ -33,6 +40,12 @@ func pullCmd(clientFactory func() images.Client) *cobra.Command {
 	var repository, tag string
 	cmd := &cobra.Command{
 		Use: "pull",
+		PreRunE: func(_ *cobra.Command, _ []string) error {
+			if err := docker.ValidateRepositoryName(repository); err != nil {
+				return err
+			}
+			return nil
+		},
 		RunE: func(_ *cobra.Command, _ []string) error {
 			client := clientFactory()
 			taskResponse, err := client.StartPull(repository, tag)
