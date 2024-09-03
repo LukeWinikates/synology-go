@@ -14,7 +14,8 @@ func projectsCreateCmd(builder commandBuilder) *cobra.Command {
 	var filePath string
 	var autoBuild bool
 	cmd := &cobra.Command{
-		Use: "create",
+		Use:   "create",
+		Short: "Create a new project with the provided name and Synology share path using the provided compose file",
 		RunE: func(_ *cobra.Command, _ []string) error {
 			content, err := os.ReadFile(filePath)
 			if err != nil {

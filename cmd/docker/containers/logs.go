@@ -11,8 +11,8 @@ func containerLogsCmd(builder commandBuilder) *cobra.Command {
 	var name string
 	var simple bool
 	cmd := &cobra.Command{
-		Use:  "logs",
-		Long: "",
+		Use:   "logs",
+		Short: "Print the logs of the container with the provided name",
 		RunE: func(_ *cobra.Command, _ []string) error {
 			response, err := builder.newClient().GetContainerLogs(name)
 			if err != nil {

@@ -11,8 +11,8 @@ func stopCmd(builder commandBuilder) *cobra.Command {
 	var name string
 
 	cmd := &cobra.Command{
-		Use:  "stop",
-		Long: "",
+		Use:   "stop",
+		Short: "Stop the container with the provided name",
 		RunE: func(_ *cobra.Command, _ []string) error {
 			response, err := builder.newClient().StopContainer(name)
 			if err != nil {

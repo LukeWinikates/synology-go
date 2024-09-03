@@ -8,14 +8,16 @@ import (
 )
 
 func projectsStopCmd(builder commandBuilder) *cobra.Command {
-	return idRequiredCommand(builder, "stop", func(client projects.Client, id string) error {
+	short := "Stop the project with the provided name or id"
+	return idRequiredCommand(builder, "stop", short, func(client projects.Client, id string) error {
 		return client.Stop(id, func(s string) {
 			fmt.Println(s)
 		})
 	})
 }
 func projectsStartCmd(builder commandBuilder) *cobra.Command {
-	return idRequiredCommand(builder, "start", func(client projects.Client, id string) error {
+	short := "Start the project with the provided name or id"
+	return idRequiredCommand(builder, "start", short, func(client projects.Client, id string) error {
 		return client.Start(id, func(s string) {
 			fmt.Println(s)
 		})
@@ -23,7 +25,8 @@ func projectsStartCmd(builder commandBuilder) *cobra.Command {
 }
 
 func projectsBuildCmd(builder commandBuilder) *cobra.Command {
-	return idRequiredCommand(builder, "build", func(client projects.Client, id string) error {
+	short := "Build the project with the provided name or id"
+	return idRequiredCommand(builder, "build", short, func(client projects.Client, id string) error {
 		return client.BuildStream(id, func(s string) {
 			fmt.Println(s)
 		})

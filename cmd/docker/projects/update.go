@@ -13,8 +13,8 @@ func projectsUpdateCmd(builder commandBuilder) *cobra.Command {
 	var filePath string
 	var autoBuild bool
 	cmd := &cobra.Command{
-		Use:  "update",
-		Long: "",
+		Use:   "update",
+		Short: "Modify and rebuild the compose file for the projects with the given name",
 		RunE: func(_ *cobra.Command, _ []string) error {
 			client := builder.clientFactory()
 			content, err := os.ReadFile(filePath)

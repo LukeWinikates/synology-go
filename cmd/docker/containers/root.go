@@ -16,7 +16,7 @@ func Cmd(newClient func() api.Client) *cobra.Command {
 	cmd := &cobra.Command{
 		Use:     "container",
 		Aliases: []string{"containers"},
-		Long:    `The containers command lists, describes, restarts, and shows logs for containers`,
+		Short:   `List, describe, restart, and shows logs for containers`,
 	}
 
 	builder := commandBuilder{

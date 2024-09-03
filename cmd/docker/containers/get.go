@@ -11,8 +11,8 @@ import (
 func getCmd(builder commandBuilder) *cobra.Command {
 	var name string
 	cmd := &cobra.Command{
-		Use:  "get",
-		Long: "",
+		Use:   "get",
+		Short: "Print the details and profile of the container with the provided name",
 		RunE: func(_ *cobra.Command, _ []string) error {
 			response, err := builder.newClient().GetContainer(name)
 			if err != nil {

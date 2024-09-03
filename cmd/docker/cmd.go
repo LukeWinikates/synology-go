@@ -12,7 +12,8 @@ import (
 
 func Cmd(newClient func() api.Client) *cobra.Command {
 	dockerCmd := &cobra.Command{
-		Use: "docker",
+		Use:   "docker",
+		Short: "Manage containers, images, projects and registries",
 		Long: `
 The docker command communicates with the Container Manager application. 
 Use it to examine, restart, or delete containers and projects, or to view logs from your containers.`,

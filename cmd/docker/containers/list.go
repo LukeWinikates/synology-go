@@ -8,8 +8,8 @@ import (
 
 func listCmd(builder commandBuilder) *cobra.Command {
 	return &cobra.Command{
-		Use:  "list",
-		Long: "",
+		Use:   "list",
+		Short: "List all containers",
 		RunE: func(_ *cobra.Command, _ []string) error {
 			response, err := builder.newClient().ListContainers()
 			if err != nil {

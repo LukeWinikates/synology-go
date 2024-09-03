@@ -11,8 +11,8 @@ func restartCmd(builder commandBuilder) *cobra.Command {
 	var name string
 
 	cmd := &cobra.Command{
-		Use:  "restart",
-		Long: "",
+		Use:   "restart",
+		Short: "Restart the container with the provided name",
 		RunE: func(_ *cobra.Command, _ []string) error {
 			response, err := builder.newClient().RestartContainer(name)
 			if err != nil {

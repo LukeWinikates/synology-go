@@ -9,6 +9,7 @@ import (
 func Cmd(newClient func() api.Client) *cobra.Command {
 	cmd := &cobra.Command{
 		Use:     "images",
+		Short:   "List, describe, and update container images",
 		Aliases: []string{"image"},
 	}
 	factory := func() images.Client { return images.NewClient(newClient()) }

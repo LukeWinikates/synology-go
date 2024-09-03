@@ -15,7 +15,8 @@ import (
 func upgradeCmd(clientFactory func() images.Client) *cobra.Command {
 	var repository string
 	cmd := &cobra.Command{
-		Use: "upgrade",
+		Use:   "upgrade",
+		Short: "Upgrade the image with the provided repository name",
 		PreRunE: func(_ *cobra.Command, _ []string) error {
 			if err := docker.ValidateRepositoryName(repository); err != nil {
 				return err
@@ -40,7 +41,8 @@ func upgradeCmd(clientFactory func() images.Client) *cobra.Command {
 func pullCmd(clientFactory func() images.Client) *cobra.Command {
 	var repository, tag string
 	cmd := &cobra.Command{
-		Use: "pull",
+		Use:   "pull",
+		Short: "Pull the latest image with the provided repository name and tag",
 		PreRunE: func(_ *cobra.Command, _ []string) error {
 			if err := docker.ValidateRepositoryName(repository); err != nil {
 				return err
@@ -66,7 +68,8 @@ func pullCmd(clientFactory func() images.Client) *cobra.Command {
 func followUpgradeCmd(clientFactory func() images.Client) *cobra.Command {
 	var taskID string
 	cmd := &cobra.Command{
-		Use: "follow-upgrade",
+		Use:   "follow-upgrade",
+		Short: "Poll the status of an existing upgrade task",
 		RunE: func(_ *cobra.Command, _ []string) error {
 			return pollUpgradeTask(clientFactory(), taskID)
 		},
@@ -91,7 +94,8 @@ func pollUpgradeTask(client images.Client, taskID string) error {
 func followPullCmd(clientFactory func() images.Client) *cobra.Command {
 	var taskID string
 	cmd := &cobra.Command{
-		Use: "follow-pull",
+		Use:   "follow-pull",
+		Short: "Poll the status of an existing pull task",
 		RunE: func(_ *cobra.Command, _ []string) error {
 			return pollPullTask(clientFactory(), taskID)
 		},

@@ -9,7 +9,8 @@ import (
 
 func Cmd(newClient func() api.Client) *cobra.Command {
 	cmd := &cobra.Command{
-		Use: "registries",
+		Use:   "registries",
+		Short: "Manage the container image repositories available to Container Manager",
 	}
 
 	cmd.AddCommand(listCMD(newClient))
@@ -18,7 +19,8 @@ func Cmd(newClient func() api.Client) *cobra.Command {
 
 func listCMD(newClient func() api.Client) *cobra.Command {
 	cmd := &cobra.Command{
-		Use: "list",
+		Use:   "list",
+		Short: "List the available image repositories",
 		RunE: func(_ *cobra.Command, _ []string) error {
 
 			response, err := registries.NewClient(newClient()).List()

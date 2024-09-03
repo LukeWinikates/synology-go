@@ -9,7 +9,8 @@ import (
 
 func listCmd(clientFactory func() images.Client) *cobra.Command {
 	return &cobra.Command{
-		Use: "list",
+		Use:   "list",
+		Short: "List all images currently downloaded into the Container Manager instance",
 		RunE: func(_ *cobra.Command, _ []string) error {
 			response, err := clientFactory().List()
 			if err != nil {

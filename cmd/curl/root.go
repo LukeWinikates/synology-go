@@ -15,8 +15,9 @@ func Cmd(newClient func() api.Client) *cobra.Command {
 	form := map[string]string{}
 	data := ""
 	curlCmd := &cobra.Command{
-		Use:  "curl",
-		Long: `calls an arbitrary Synology API based on user input, and returns the response as pretty-printed JSON`,
+		Use:   "curl",
+		Short: "Make authenticated ad-hoc API calls",
+		Long:  `calls an arbitrary Synology API based on user input, and returns the response as pretty-printed JSON`,
 		Example: `synoctl curl 'api=SYNO.FileStation.Mount.List&method=get&version=1'
 synoctl curl -X POST --data 'api=SYNO.FileStation.Mount.List&method=get&version=1'
 synoctl curl -F 'api=SYNO.FileStation.Mount.List' -F 'method=get' -F 'version=1'

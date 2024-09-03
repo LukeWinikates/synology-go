@@ -11,8 +11,8 @@ func startCmd(builder commandBuilder) *cobra.Command {
 	var name string
 
 	cmd := &cobra.Command{
-		Use:  "start",
-		Long: "",
+		Use:   "start",
+		Short: "Start the container with the provided name",
 		RunE: func(_ *cobra.Command, _ []string) error {
 			response, err := builder.newClient().StartContainer(name)
 			if err != nil {

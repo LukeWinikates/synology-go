@@ -9,7 +9,8 @@ import (
 func getCmd(clientFactory func() images.Client) *cobra.Command {
 	var name, tag string
 	cmd := &cobra.Command{
-		Use: "get",
+		Use:   "get",
+		Short: "Print the details of the image with the provided name and tag",
 		RunE: func(_ *cobra.Command, _ []string) error {
 			response, err := clientFactory().Get(name, tag)
 			if err != nil {

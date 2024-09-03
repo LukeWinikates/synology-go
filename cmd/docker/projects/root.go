@@ -10,6 +10,7 @@ import (
 func Cmd(newClient func() api.Client) *cobra.Command {
 	cmd := &cobra.Command{
 		Use:     "projects",
+		Short:   "List, create, and manage Docker Compose projects",
 		Aliases: []string{"project"},
 	}
 	factory := func() projects.Client { return projects.NewClient(newClient()) }
@@ -40,10 +41,11 @@ type commandBuilder struct {
 	objectPrinter internal.TableWriter[*projects.Project]
 }
 
-func idRequiredCommand(builder commandBuilder, use string, commandFunc func(client projects.Client, id string) error) *cobra.Command {
+func idRequiredCommand(builder commandBuilder, use, short string, commandFunc func(client projects.Client, id string) error) *cobra.Command {
 	var id, name string
 	cmd := &cobra.Command{
-		Use: use,
+		Use:   use,
+		Short: short,
 		RunE: func(_ *cobra.Command, _ []string) error {
 			if id == "" && name != "" {
 				projectList, err := builder.clientFactory().List()

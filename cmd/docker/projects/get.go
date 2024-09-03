@@ -8,7 +8,8 @@ import (
 )
 
 func projectsGetCmd(builder commandBuilder) *cobra.Command {
-	return idRequiredCommand(builder, "get", func(client projects.Client, id string) error {
+	short := "Print the name, id, and status of the project with the provided name or id"
+	return idRequiredCommand(builder, "get", short, func(client projects.Client, id string) error {
 		response, err := client.Get(id)
 		if err != nil {
 			return err
@@ -23,7 +24,8 @@ func projectsGetCmd(builder commandBuilder) *cobra.Command {
 }
 
 func projectsDeleteCmd(builder commandBuilder) *cobra.Command {
-	return idRequiredCommand(builder, "delete", func(client projects.Client, id string) error {
+	short := "Delete the project with the provided name or id"
+	return idRequiredCommand(builder, "delete", short, func(client projects.Client, id string) error {
 		response, err := client.Delete(id)
 		if err != nil {
 			return err

@@ -1,4 +1,5 @@
-# a CLI and go SDK for the Synology: `synoctl` and `synology-go`
+# `synoctl` and `synology-go`
+a CLI and go SDK for the Synology DSM API
 
 ## Why make this?
 
@@ -7,9 +8,9 @@ Synology NAS devices are popular.
 In a home setting, a Synology device is particularly handy as a small, always-on Linux device with abundant local storage.
 
 Out of the box, you can interact with a Synology device through a web-based UI. The Web UI is great for trying new features,
-but managing containers or network drives from the UI can be slow and error-prone - classic motivations for a scriptable command-line utility.
+but managing containers or network drives from the UI can be slow and error-prone. A command-line utility better supports scripting and automation.
 
-The `synoctl` command name follows the tradition of `kubectl`, `journalctl`, `sysctl` and other cli utilities for
+The `synoctl` command name follows the tradition of `kubectl`, `journalctl`, `sysctl` and other command-line utilities for
 managing things.
 Hopefully it is easy to type and easy to remember!
 
@@ -23,7 +24,7 @@ Run the `synoctl login` and follow the prompts to authenticate with your Synolog
 
 ![animated demo](docs/demo.gif)
 
-`synoctl` supports these commands. You'll need to install the Container Manager app from Package Center first.
+`synoctl` supports these commands. To use `docker` commands, you will need to install the Container Manager app from Package Center first.
 
 | app    | resource   | command        | description                                                               |
 |--------|------------|----------------|---------------------------------------------------------------------------|

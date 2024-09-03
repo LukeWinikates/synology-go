@@ -10,8 +10,8 @@ import (
 
 func Cmd(newClient func() api.Client) *cobra.Command {
 	cmd := &cobra.Command{
-		Use:  "manager",
-		Long: `The manager shows logs for the container manager app`,
+		Use:   "manager",
+		Short: "Show logs for the container manager app",
 	}
 
 	cmd.AddCommand(logsCmd(newClient))
@@ -20,7 +20,8 @@ func Cmd(newClient func() api.Client) *cobra.Command {
 
 func logsCmd(newClient func() api.Client) *cobra.Command {
 	cmd := &cobra.Command{
-		Use: "logs",
+		Use:   "logs",
+		Short: "Show logs for the container manager app",
 		Long: `
 The logs command lists the recent container lifecycle events logged by the Container Manger application
 

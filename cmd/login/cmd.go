@@ -39,7 +39,8 @@ func (sp *SessionProvider) SaveSession() error {
 
 func Cmd(sp *SessionProvider) *cobra.Command {
 	return &cobra.Command{
-		Use: "login",
+		Use:   "login",
+		Short: "Interactively log in to your Synology DSM server, creating a long-running session",
 		RunE: func(_ *cobra.Command, _ []string) error {
 			var host, acct string
 			if sp.Host == "" {
