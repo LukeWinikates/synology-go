@@ -39,7 +39,7 @@ changelog:
 brews:
  -  homepage: "https://github.com/LukeWinikates/synology-go"
     name: synoctl
-    description: "A command-line interface for devices running Synology DSM"
+    description: "Command Line Interface for devices running Synology DSM"
     commit_author:
       name: goreleaserbot
       email: bot@goreleaser.com
