@@ -52,6 +52,7 @@ synoctl is a utility for interacting with your Synology NAS from a remote termin
 	cmd.AddCommand(docker.Cmd(newAPIClient(sp)))
 	cmd.AddCommand(login.Cmd(sp))
 	cmd.AddCommand(curl.Cmd(newAPIClient(sp)))
+	cmd.AddCommand(versionCmd())
 	return cmd
 }
 
