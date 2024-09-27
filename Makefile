@@ -1,13 +1,13 @@
 .PHONY: test integration-test setup
 build/synoctl: build/ $(shell find . -iname "*.go")
-	go build -o $@ cmd/main.go
+	go build -o $@ cmd/main.go cmd/version.go
 
 build/:
 	-mkdir -p build
 
 test:
-	golangci-lint run
 	go test -v ./...
+	golangci-lint run
 
 integration-test:
 	go test -v ./...  --tags=integration

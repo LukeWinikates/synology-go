@@ -45,7 +45,6 @@ func (t *TestServer) wrapAuth(handler http.HandlerFunc) http.HandlerFunc {
 			}))
 		}
 	}
-
 }
 
 func (t *TestServer) AddRoute(httpMethod, api, apiMethod string, handler http.HandlerFunc) {
