@@ -23,6 +23,10 @@ func ensureConfigFile() (string, error) {
 	}
 	filePath := filepath.Join(xdg.ConfigHome, ".synoctl.yaml")
 	log.Printf("Couldn't find a .synoctl.yaml file. Creating an empty one at %s", filePath)
+	err = os.MkdirAll(xdg.ConfigHome, os.ModePerm)
+	if err != nil {
+		return "", err
+	}
 	file, err := os.Create(filePath)
 	if err != nil {
 		return "", err
@@ -63,6 +67,10 @@ func newAPIClient(sp *login.SessionProvider) func() api.Client {
 }
 
 func main() {
+	os.Exit(Main())
+}
+
+func Main() int {
 	file, err := ensureConfigFile()
 	if err != nil {
 		log.Fatal(err)
@@ -70,6 +78,7 @@ func main() {
 
 	if err = rootCmd(login.NewSessionProvider(file)).Execute(); err != nil {
 		fmt.Fprintln(os.Stderr, err)
-		os.Exit(1)
+		return 1
 	}
+	return 0
 }
