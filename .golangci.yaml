@@ -5,7 +5,6 @@ linters:
     - errchkjson
     - errname
     - errorlint
-    - execinquery
     - exhaustive
     - gci
     - gofmt
