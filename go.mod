@@ -1,10 +1,11 @@
 module github.com/LukeWinikates/synology-go
 
 go 1.22.2
+toolchain go1.23.6
 
 require (
 	github.com/adrg/xdg v0.5.3
-	github.com/rogpeppe/go-internal v1.13.1
+	github.com/rogpeppe/go-internal v1.14.1
 	github.com/spf13/cobra v1.9.1
 	github.com/stretchr/testify v1.10.0
 	go.uber.org/zap v1.27.0
@@ -19,5 +20,5 @@ require (
 	github.com/spf13/pflag v1.0.6 // indirect
 	go.uber.org/multierr v1.10.0 // indirect
 	golang.org/x/sys v0.30.0 // indirect
-	golang.org/x/tools v0.22.0 // indirect
+	golang.org/x/tools v0.26.0 // indirect
 )
