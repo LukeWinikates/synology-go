@@ -15,9 +15,9 @@ var s *httptest.Server
 
 func TestMain(m *testing.M) {
 	defer s.Close()
-	os.Exit(testscript.RunMain(m, map[string]func() int{
-		"synoctl": Main,
-	}))
+	testscript.Main(m, map[string]func(){
+		"synoctl": func() { Main() },
+	})
 }
 
 func Test(t *testing.T) {
