@@ -1,3 +1,4 @@
 env XDG_CONFIG_HOME=$WORK
 ttyin -stdin input.txt
 exec synoctl login
+! stderr Error
