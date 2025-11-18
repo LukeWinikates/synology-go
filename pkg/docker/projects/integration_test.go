@@ -1,14 +1,14 @@
 //go:build integration
-// +build integration
 
 package projects
 
 import (
 	"fmt"
-	"github.com/LukeWinikates/synology-go/pkg/api/auth"
-	"github.com/stretchr/testify/assert"
 	"os"
 	"testing"
+
+	"github.com/LukeWinikates/synology-go/pkg/api/auth"
+	"github.com/stretchr/testify/assert"
 )
 
 const COMPOSE_FILE_CONTENTS = `

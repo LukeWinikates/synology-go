@@ -1,13 +1,13 @@
 //go:build integration
-// +build integration
 
 package images
 
 import (
-	"github.com/LukeWinikates/synology-go/pkg/api/auth"
-	"github.com/stretchr/testify/assert"
 	"os"
 	"testing"
+
+	"github.com/LukeWinikates/synology-go/pkg/api/auth"
+	"github.com/stretchr/testify/assert"
 )
 
 func TestImagesLifecycle(t *testing.T) {
