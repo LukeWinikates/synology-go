@@ -10,6 +10,16 @@ linters:
     - revive
     - staticcheck
     - testifylint
+  settings:
+    revive:
+      enable-default-rules: true
+      rules:
+        - name: var-naming
+          disabled: false
+          arguments:
+            - []
+            - []
+            - - skip-package-name-checks: true
   exclusions:
     generated: lax
     presets:
