@@ -4,7 +4,7 @@ go 1.25.0
 
 require (
 	github.com/adrg/xdg v0.5.3
-	github.com/rogpeppe/go-internal v1.14.1
+	github.com/rogpeppe/go-internal v1.15.0
 	github.com/spf13/cobra v1.10.2
 	github.com/stretchr/testify v1.11.1
 	go.uber.org/zap v1.28.0
